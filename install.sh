@@ -44,3 +44,5 @@ cd "${JAGEX_LAUNCHER_PATH}"
 python ${OLDPWD}/jagex-launcher-linux/resources/installer.py
 
 deactivate
+
+./build-wine.sh "${DESTDIR}/wine"

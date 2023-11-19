@@ -1,0 +1,15 @@
+# We want the oldest supported version of Debian so we have the earliest reasonable
+# version of glibc, to avoid compatibility issues caused by compling on a newer glibc
+# and running on an older one. In this case, that's Debian 11 (bullseye) with glibc 2.31.
+FROM debian:11.8-slim
+
+# Install build dependencies
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+    apt-get -y --no-install-recommends install \
+        build-essential \
+        ca-certificates && \
+    apt-get clean && rm -rf /tmp/setup /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY . /usr/src/wine
+WORKDIR /wine-build
