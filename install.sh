@@ -22,8 +22,8 @@ fi
 cd jagex-launcher-linux
 
 # If the git repo isn't clean, reset it
-git pull
 git reset --hard HEAD
+git fetch --all
 git checkout ${JAGEX_LAUNCHER_LINUX_SHA}
 
 # If the venv doesn't exist, create it
