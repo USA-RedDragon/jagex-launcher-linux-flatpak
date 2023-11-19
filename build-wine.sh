@@ -6,6 +6,7 @@ DESTDIR="$(realpath $1)"
 
 OLDPWD="$PWD"
 
+# renovate: datasource=git-tags depName=https://gitlab.winehq.org/wine/wine
 WINE_VERSION=wine-8.20
 
 # If OLDPWD/wine doesn't exist, clone it

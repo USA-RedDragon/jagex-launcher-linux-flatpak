@@ -3,6 +3,7 @@
 set -euo pipefail
 
 DESTDIR="$(realpath $1)"
+# renovate: sha: datasource=git-refs depName=jagex-launcher-linux packageName=https://github.com/TormStorm/jagex-launcher-linux branch=main
 JAGEX_LAUNCHER_LINUX_SHA=07972dae16b9d8abf6bcdf9a52d7a68e958f055d
 
 OLDPWD="$PWD"
