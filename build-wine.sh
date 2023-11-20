@@ -27,18 +27,19 @@ docker build -t wine-build -f Dockerfile.wine wine-src
 #     exit 0
 # fi
 
-mkdir -p "${DESTDIR}/out"
-mkdir -p "${DESTDIR}/wine64"
-mkdir -p "${DESTDIR}/wine32"
-docker run --rm -v "${DESTDIR}:/wine-build" -v "${HOME}/.cache/ccache:/ccache" --user $(id -u):$(id -g) -i wine-build bash <<EOF
+mkdir -p "${DESTDIR}"
+docker run --rm -v "${DESTDIR}:/wine-build/out" -v "${HOME}/.cache/ccache:/ccache" -e ID=$(id -u) -e GID=$(id -g) -i wine-build bash <<EOF
 set -exuo pipefail
 
-OLDPWD="\$(pwd)"
+OLDPWD=/wine-build
+cd /wine-build
 
 export USE_CCACHE=1
 export CCACHE_DIR=/ccache
 ccache --set-config=max_size=50.0G
 ccache -s
+
+mkdir -p wine64 wine32
 
 cd wine64
 
@@ -50,11 +51,16 @@ cd wine64
   --without-capi \\
   --without-cups \\
   --without-dbus \\
+  --without-fontconfig \\
+  --without-gettext \\
   --without-gphoto \\
   --without-gssapi \\
+  --without-inotify \\
   --without-krb5 \\
   --without-netapi \\
   --without-opencl \\
+  --without-osmesa \\
+  --without-oss \\
   --without-pcap \\
   --without-pcsclite \\
   --without-capi \\
@@ -64,6 +70,15 @@ cd wine64
   --without-usb \\
   --without-v4l2 \\
   --with-x \\
+  --without-xfixes \\
+  --without-xshape \\
+  --without-xshm \\
+  --without-xinerama \\
+  --without-xinput \\
+  --without-xrandr \\
+  --without-xxf86vm \\
+  --without-xcursor \\
+  --without-xinput2 \\
   LDFLAGS="-flto=auto" \\
   CFLAGS="-flto -ffat-lto-objects -pipe -fno-plt -fexceptions -Wformat -Werror=format-security -fstack-clash-protection -fcf-protection" \\
   CC="ccache gcc" \\
@@ -86,11 +101,16 @@ cd wine32
   --without-capi \\
   --without-cups \\
   --without-dbus \\
+  --without-fontconfig \\
+  --without-gettext \\
   --without-gphoto \\
   --without-gssapi \\
+  --without-inotify \\
   --without-krb5 \\
   --without-netapi \\
   --without-opencl \\
+  --without-osmesa \\
+  --without-oss \\
   --without-pcap \\
   --without-pcsclite \\
   --without-capi \\
@@ -100,6 +120,15 @@ cd wine32
   --without-usb \\
   --without-v4l2 \\
   --with-x \\
+  --without-xfixes \\
+  --without-xshape \\
+  --without-xshm \\
+  --without-xinerama \\
+  --without-xinput \\
+  --without-xrandr \\
+  --without-xxf86vm \\
+  --without-xcursor \\
+  --without-xinput2 \\
   LDFLAGS="-flto=auto" \\
   CFLAGS="-m32 -flto -ffat-lto-objects -pipe -fno-plt -fexceptions -Wformat -Werror=format-security -fstack-clash-protection -fcf-protection" \\
   CC="ccache gcc" \\
@@ -110,5 +139,7 @@ cd wine32
 
 make -j\$(nproc)
 make install
+
+chown -R \${ID}:\${GID} "\${OLDPWD}/out"
 
 EOF

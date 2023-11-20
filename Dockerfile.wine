@@ -11,7 +11,6 @@ RUN dpkg --add-architecture i386
 RUN apt-get update && \
     apt-get -y --no-install-recommends install \
         build-essential \
-        gettext \
         flex \
         bison \
         ccache \
@@ -26,8 +25,6 @@ RUN apt-get update && \
         libgstreamer1.0-dev:i386 \
         libgstreamer-plugins-base1.0-dev \
         libgstreamer-plugins-base1.0-dev:i386 \
-        libfontconfig-dev \
-        libfontconfig-dev:i386 \
         libfreetype-dev \
         libfreetype-dev:i386 \
         libgnutls28-dev \
@@ -40,20 +37,8 @@ RUN apt-get update && \
         libx11-dev:i386 \
         libxcomposite-dev \
         libxcomposite-dev:i386 \
-        libxcursor-dev \
-        libxcursor-dev:i386 \
-        libxfixes-dev \
-        libxfixes-dev:i386 \
-        libxi-dev \
-        libxi-dev:i386 \
-        libxrandr-dev \
-        libxrandr-dev:i386 \
         libxrender-dev \
         libxrender-dev:i386 \
-        libxext-dev \
-        libxext-dev:i386 \
-        libosmesa6-dev \
-        libosmesa6-dev:i386 \
         libvulkan-dev \
         libvulkan-dev:i386 && \
     rm -rf /tmp/setup /var/lib/apt/lists/* /tmp/* /var/tmp/*
