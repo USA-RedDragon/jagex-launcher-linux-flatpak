@@ -23,15 +23,92 @@ cd -
 docker build -t wine-build -f Dockerfile.wine wine-src
 
 # If DESTDIR exists, exit silently
-if [ -d "${DESTDIR}" ]; then
-    exit 0
-fi
+# if [ -d "${DESTDIR}" ]; then
+#     exit 0
+# fi
 
-mkdir -p "${DESTDIR}"
-docker run --rm -v "${DESTDIR}:/wine-build" --user $(id -u):$(id -g) -i wine-build bash <<EOF
-set -euo pipefail
-echo UNAME=\$(uname -a)
-echo USER=\$(id):\$(id -g)
-echo PWD=\$(pwd)
-echo LIBC_VERSION=\$(ldd --version)
+mkdir -p "${DESTDIR}/out"
+mkdir -p "${DESTDIR}/wine64"
+mkdir -p "${DESTDIR}/wine32"
+docker run --rm -v "${DESTDIR}:/wine-build" -v "${HOME}/.cache/ccache:/ccache" --user $(id -u):$(id -g) -i wine-build bash <<EOF
+set -exuo pipefail
+
+OLDPWD="\$(pwd)"
+
+export USE_CCACHE=1
+export CCACHE_DIR=/ccache
+ccache --set-config=max_size=50.0G
+ccache -s
+
+cd wine64
+
+/usr/src/wine/configure \\
+  --exec-prefix="\${OLDPWD}/out" \\
+  --prefix="\${OLDPWD}/out" \\
+  --disable-win16 \\
+  --enable-win64 \\
+  --without-capi \\
+  --without-cups \\
+  --without-dbus \\
+  --without-gphoto \\
+  --without-gssapi \\
+  --without-krb5 \\
+  --without-netapi \\
+  --without-opencl \\
+  --without-pcap \\
+  --without-pcsclite \\
+  --without-capi \\
+  --without-sane \\
+  --without-sdl \\
+  --without-udev \\
+  --without-usb \\
+  --without-v4l2 \\
+  --with-x \\
+  LDFLAGS="-flto=auto" \\
+  CFLAGS="-flto -ffat-lto-objects -pipe -fno-plt -fexceptions -Wformat -Werror=format-security -fstack-clash-protection -fcf-protection" \\
+  CC="ccache gcc" \\
+  CXX="ccache g++" \\
+  CROSSCC="ccache x86_64-w64-mingw32-gcc" \\
+  CROSSXX="ccache x86_64-w64-mingw32-g++" \\
+  PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu
+
+make -j\$(nproc)
+make install
+
+cd "\${OLDPWD}"
+cd wine32
+
+/usr/src/wine/configure \\
+  --exec-prefix="\${OLDPWD}/out" \\
+  --prefix="\${OLDPWD}/out" \\
+  --with-wine64="\${OLDPWD}/wine64" \\
+  --disable-win16 \\
+  --without-capi \\
+  --without-cups \\
+  --without-dbus \\
+  --without-gphoto \\
+  --without-gssapi \\
+  --without-krb5 \\
+  --without-netapi \\
+  --without-opencl \\
+  --without-pcap \\
+  --without-pcsclite \\
+  --without-capi \\
+  --without-sane \\
+  --without-sdl \\
+  --without-udev \\
+  --without-usb \\
+  --without-v4l2 \\
+  --with-x \\
+  LDFLAGS="-flto=auto" \\
+  CFLAGS="-m32 -flto -ffat-lto-objects -pipe -fno-plt -fexceptions -Wformat -Werror=format-security -fstack-clash-protection -fcf-protection" \\
+  CC="ccache gcc" \\
+  CXX="ccache g++" \\
+  CROSSCC="ccache i686-w64-mingw32-gcc" \\
+  CROSSXX="ccache i686-w64-mingw32-g++" \\
+  PKG_CONFIG_PATH=/usr/lib/i386-linux-gnu/pkgconfig
+
+make -j\$(nproc)
+make install
+
 EOF
