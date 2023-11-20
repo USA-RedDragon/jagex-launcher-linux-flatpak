@@ -136,6 +136,8 @@ cd wine32
 make -j\$(nproc)
 make install
 
+rm -rf "\${OLDPWD}/out/share/man" "\${OLDPWD}/out/share/applications" "\${OLDPWD}/out/include"
+
 chown -R \${ID}:\${GID} "\${OLDPWD}/out"
 
 EOF
