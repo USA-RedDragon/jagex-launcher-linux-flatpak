@@ -1,0 +1,16 @@
+#!/bin/sh
+
+APPDIR="$(dirname "$(readlink -f "$0")")"
+
+# Hardcode the WINEPREFIX to a specific location
+export WINEPREFIX="$HOME/.local/share/AppImage/Jagex Launcher"
+
+mkdir -p "${WINEPREFIX}/drive_c/Program Files (x86)/"
+if [ ! -f "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" ]; then
+    # Copy the Jagex Launcher to the WINEPREFIX
+    mkdir -p "${WINEPREFIX}/drive_c/Program Files (x86)/"
+    cp -r "${APPDIR}/Jagex Launcher" "${WINEPREFIX}/drive_c/Program Files (x86)/"
+fi
+chown -R "$(id -u):$(id -g)" "${WINEPREFIX}"
+
+exec "${APPDIR}/wine/bin/wine" "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
