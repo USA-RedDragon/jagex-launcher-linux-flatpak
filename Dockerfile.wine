@@ -39,6 +39,8 @@ RUN apt-get update && \
         libxcomposite-dev:i386 \
         libxrender-dev \
         libxrender-dev:i386 \
+        libxext-dev \
+        libxext-dev:i386 \
         libvulkan-dev \
         libvulkan-dev:i386 && \
     rm -rf /tmp/setup /var/lib/apt/lists/* /tmp/* /var/tmp/*

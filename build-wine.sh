@@ -71,8 +71,6 @@ cd wine64
   --without-v4l2 \\
   --with-x \\
   --without-xfixes \\
-  --without-xshape \\
-  --without-xshm \\
   --without-xinerama \\
   --without-xinput \\
   --without-xrandr \\
@@ -121,8 +119,6 @@ cd wine32
   --without-v4l2 \\
   --with-x \\
   --without-xfixes \\
-  --without-xshape \\
-  --without-xshm \\
   --without-xinerama \\
   --without-xinput \\
   --without-xrandr \\
