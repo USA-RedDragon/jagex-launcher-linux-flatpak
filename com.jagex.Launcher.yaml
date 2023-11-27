@@ -66,38 +66,6 @@ add-extensions:
     version: *runtime-version
     autodelete: false
 
-
-x-wine-cleanup: &wine-cleanup
-  - "*.a"
-  - "*.la"
-  - "/bin/function_grep.pl"
-  - "/bin/msiexec"
-  - "/bin/regedit"
-  - "/bin/widl"
-  - "/bin/wine64-preloader"
-  - "/bin/winebuild"
-  - "/bin/wineconsole"
-  - "/bin/winedbg"
-  - "/bin/winefile"
-  - "/bin/winegcc"
-  - "/bin/winemine"
-  - "/bin/wrc"
-  - "/bin/msidb"
-  - "/bin/notepad"
-  - "/bin/regsvr32"
-  - "/bin/wineboot"
-  - "/bin/winecpp"
-  - "/bin/winedump"
-  - "/bin/wineg++"
-  - "/bin/winemaker"
-  - "/bin/winepath"
-  - "/bin/wmc"
-  - "/include/wine"
-  - "/lib/debug"
-  - "/lib32/debug"
-  - "/share/man"
-  - "/share/applications"
-
 x-wine-common-config-args: &wine-common-config-args
   - --exec-prefix="/app"
   - --prefix="/app"
@@ -190,9 +158,6 @@ modules:
       - CXX=ccache i686-unknown-linux-gnu-g++
       - CROSSCC=ccache i686-w64-mingw32-gcc
       - CROSSCX=ccache i686-w64-mingw32-g++
-    cleanup:
-      - <<: *wine-cleanup
-      - /wine32tools
     sources:
       - type: git
         url: https://gitlab.winehq.org/wine/wine.git
@@ -208,9 +173,6 @@ modules:
     buildsystem: simple
     build-commands:
       - cd /app/wine && make install
-    cleanup:
-      - <<: *wine-cleanup
-      - /wine
 
   - name: jagex-launcher-linux
     buildsystem: simple
@@ -252,6 +214,16 @@ modules:
       - install -Dm644 256x256.png /app/share/icons/hicolor/256x256/apps/com.jagex.Launcher.png
       - install -D com.jagex.Launcher.desktop /app/share/applications/com.jagex.Launcher.desktop
       - install -D com.jagex.Launcher.metainfo.xml /app/share/metainfo/com.jagex.Launcher.metainfo.xml
+      - |
+        rm -rf /app/bin/function_grep.pl /app/bin/msidb /app/bin/msiexec /app/bin/notepad \
+          /app/bin/regedit /app/bin/regsvr32 /app/bin/widl /app/bin/wine-preloader \
+          /app/bin/wine64-preloader /app/bin/wineboot /app/bin/winebuild \
+          /app/bin/wineconsole /app/bin/winecpp /app/bin/winedbg /app/bin/winedump \
+          /app/bin/winefile /app/bin/wineg++ /app/bin/winegcc /app/bin/winemaker \
+          /app/bin/winemine /app/bin/winepath /app/bin/wmc /app/bin/wrc /app/include/wine \
+          /app/lib/debug /app/share/man /app/share/applications/wine.desktop /app/wine \
+          /app/wine32tools
+
     sources:
       - type: inline
         dest-filename: ld.so.conf
