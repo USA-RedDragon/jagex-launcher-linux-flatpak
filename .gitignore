@@ -4,3 +4,4 @@ out/
 export/
 resources/icons/*.png
 *.flatpak
+repo/
