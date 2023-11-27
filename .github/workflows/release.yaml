@@ -6,6 +6,11 @@ on:
       - main
     tags:
       - v*
+    paths:
+      - 'com.jagex.Launcher.yaml'
+      - 'resources/**'
+      - 'build.sh'
+      - '.github/workflows/release.yaml'
 
 concurrency:
   group: '${{ github.workflow }} @ ${{ github.ref }}'
