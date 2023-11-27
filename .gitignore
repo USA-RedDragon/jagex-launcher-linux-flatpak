@@ -5,3 +5,4 @@ export/
 resources/icons/*.png
 *.flatpak
 repo/
+bak/
