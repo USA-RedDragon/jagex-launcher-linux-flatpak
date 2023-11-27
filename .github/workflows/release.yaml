@@ -63,7 +63,7 @@ jobs:
         id: create-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.run_id }}${{ github.run_attempt }}
+          tag: ${{ github.run_number }}${{ github.run_attempt }}
         run: |
           gh release create "$tag" \
               --repo="$GITHUB_REPOSITORY" \
