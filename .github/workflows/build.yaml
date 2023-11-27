@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+    branches-ignore:
+      - rebase-pull-request**
+      - cherry-pick-rebase-pull-request**
+      - flatpak-repository
+  pull_request:
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          DEBIAN_FRONTEND=noninteractive sudo apt-get update -y
+          sudo apt-get install --no-install-recommends -y \
+            icoutils \
+            flatpak \
+            flatpak-builder \
+            elfutils
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+      - name: Cache Flatpak builder
+        id: cache-flatpak-builder
+        uses: actions/cache@v3
+        with:
+          path: .flatpak-builder
+          key: ${{ runner.os }}-flatpak-builder-${{ hashFiles('com.jagex.Launcher.yaml') }}
+      - name: Build Flatpak
+        run: |
+          ./build.sh

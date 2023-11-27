@@ -6,7 +6,20 @@ This is a Flatpak package for the Jagex Launcher. It packages the [official upst
 
 ### Installing the Launcher
 
-It is unlikely that Flathub would accept a proprietary application like the Jagex Launcher, paricularly one that is wrapped in Wine. As such, this Flatpak is not available on Flathub. You can install it by downloading the [latest release](https://github.com/USA-RedDragon/jagex-launcher-flatpak/releases/latest) and installing it with the following command:
+It is unlikely that Flathub would accept a proprietary application like the Jagex Launcher, paricularly one that is wrapped in Wine. As such, this Flatpak is not available on Flathub.
+
+### Flatpak Remote
+
+You can install it by adding the remote and installing it with the following commands:
+
+```bash
+flatpak remote-add --if-not-exists usareddragon https://jagexlauncher.flatpak.mcswain.dev/.flatpakrepo
+flatpak install --user usareddragon com.jagex.Launcher
+```
+
+### Manual Download
+
+You can install it by downloading the [latest release](https://github.com/USA-RedDragon/jagex-launcher-flatpak/releases/latest) and installing it with the following command:
 
 ```bash
 flatpak install --user com.jagex.Launcher.flatpak
