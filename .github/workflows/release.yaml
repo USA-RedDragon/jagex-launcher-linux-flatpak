@@ -33,7 +33,7 @@ jobs:
         with:
           python-version: 3.12
       - name: Setup GPG
-        id: gpg
+        id: import-gpg
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -80,8 +80,6 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email 'bot@noreply.github.com'
-      - name: Commit changes to databases
-        run: |
           cd repo
           git add -A
           git commit --signoff -m "Update com.jagex.Launcher"
