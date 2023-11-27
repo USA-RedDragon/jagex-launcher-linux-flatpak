@@ -58,8 +58,8 @@ jobs:
         id: create-release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ github.sha }}
-          release_name: ${{ github.sha }}
+          tag_name: ${{ github.run_id }}${{ github.run_attempt }}
+          release_name: ${{ github.run_id }}${{ github.run_attempt }}
           draft: false
           prerelease: false
       - name: Upload Flatpak
