@@ -69,7 +69,7 @@ jobs:
               --repo="$GITHUB_REPOSITORY" \
               --title="Release $tag" \
               --generate-notes
-          echo 'tag=$tag' >> $GITHUB_OUTPUT
+          echo "tag=$tag" >> $GITHUB_OUTPUT
       - name: Upload Flatpak
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
