@@ -1,0 +1,287 @@
+# Versions
+x-runtime-version: &runtime-version '23.08'
+x-gl-version: &gl-version '1.4'
+x-gl-versions: &gl-versions 23.08;1.4
+# renovate: datasource=git-tags depName=https://gitlab.winehq.org/wine/wine
+x-wine-version: &wine-version 'wine-8.20'
+# renovate: sha: datasource=git-refs depName=jagex-launcher-linux packageName=https://github.com/TormStorm/jagex-launcher-linux branch=main
+x-jagex-launcher-linux-sha: &jagex-launcher-linux-sha '07972dae16b9d8abf6bcdf9a52d7a68e958f055d'
+
+app-id: com.jagex.Launcher
+runtime: org.freedesktop.Platform
+runtime-version: *runtime-version
+sdk: org.freedesktop.Sdk
+command: /app/bin/launch.sh
+finish-args:
+  - --allow=multiarch
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --share=network
+  - --socket=pulseaudio
+  - --env=WINEPREFIX=/var/data/wine
+  - --env=WINEARCH=win64
+  - --env=GST_PLUGIN_SYSTEM_PATH=/app/lib32/gstreamer-1.0:/app/lib/gstreamer-1.0:/usr/lib/i386-linux-gnu/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0
+sdk-extensions:
+  - org.freedesktop.Sdk.Compat.i386
+  - org.freedesktop.Sdk.Extension.toolchain-i386
+  - org.freedesktop.Sdk.Extension.mingw-w64
+add-extensions:
+  org.freedesktop.Platform.Compat.i386:
+    directory: lib/i386-linux-gnu
+    version: *runtime-version
+
+  org.freedesktop.Platform.GL32:
+    directory: lib/i386-linux-gnu/GL
+    version: *gl-version
+    versions: *gl-versions
+    subdirectories: true
+    no-autodownload: true
+    autodelete: false
+    add-ld-path: lib
+    merge-dirs: vulkan/icd.d;glvnd/egl_vendor.d;OpenCL/vendors;lib/dri;lib/d3d;vulkan/explicit_layer.d;vulkan/implicit_layer.d
+    download-if: active-gl-driver
+    enable-if: active-gl-driver
+
+  org.freedesktop.Platform.VAAPI.Intel.i386:
+    directory: lib/i386-linux-gnu/dri/intel-vaapi-driver
+    version: *runtime-version
+    subdirectories: true
+    no-autodownload: true
+    autodelete: false
+    add-ld-path: lib
+    download-if: active-gl-driver
+    enable-if: active-gl-driver
+
+  org.freedesktop.Platform.ffmpeg-full:
+    directory: lib/ffmpeg
+    add-ld-path: .
+    version: *runtime-version
+    autodelete: false
+
+  org.freedesktop.Platform.ffmpeg_full.i386:
+    directory: lib32/ffmpeg
+    add-ld-path: .
+    version: *runtime-version
+    autodelete: false
+
+
+x-wine-cleanup: &wine-cleanup
+  - "*.a"
+  - "*.la"
+  - "/bin/function_grep.pl"
+  - "/bin/msiexec"
+  - "/bin/regedit"
+  - "/bin/widl"
+  - "/bin/wine64-preloader"
+  - "/bin/winebuild"
+  - "/bin/wineconsole"
+  - "/bin/winedbg"
+  - "/bin/winefile"
+  - "/bin/winegcc"
+  - "/bin/winemine"
+  - "/bin/wrc"
+  - "/bin/msidb"
+  - "/bin/notepad"
+  - "/bin/regsvr32"
+  - "/bin/wineboot"
+  - "/bin/winecpp"
+  - "/bin/winedump"
+  - "/bin/wineg++"
+  - "/bin/winemaker"
+  - "/bin/winepath"
+  - "/bin/wmc"
+  - "/include/wine"
+  - "/lib/debug"
+  - "/lib32/debug"
+  - "/share/man"
+  - "/share/applications"
+
+x-wine-common-config-args: &wine-common-config-args
+  - --exec-prefix="/app"
+  - --prefix="/app"
+  - --enable-shared
+  - --disable-win16
+  - --disable-tests
+  - --disable-static
+  - --without-capi
+  - --without-cups
+  - --without-dbus
+  - --without-fontconfig
+  - --without-gettext
+  - --without-gphoto
+  - --without-gssapi
+  - --without-inotify
+  - --without-krb5
+  - --without-netapi
+  - --without-opencl
+  - --without-osmesa
+  - --without-oss
+  - --without-pcap
+  - --without-pcsclite
+  - --without-capi
+  - --without-sane
+  - --without-sdl
+  - --without-udev
+  - --without-usb
+  - --without-v4l2
+  - --with-x
+  - --with-wayland
+  - --without-xfixes
+  - --without-xinerama
+  - --without-xinput
+  - --without-xrandr
+  - --without-xxf86vm
+  - --without-xcursor
+  - --without-xinput2
+
+modules:
+  - name: wine
+    build-options:
+      env:
+        CC: ccache gcc
+        CXX: ccache g++
+        CROSSCC: ccache x86_64-w64-mingw32-gcc
+        CROSSCXX: ccache x86_64-w64-mingw32-g++
+    config-opts:
+      - --enable-win64
+      - --with-mingw=ccache x86_64-w64-mingw32-gcc
+      - <<: *wine-common-config-args
+    no-make-install: true
+    post-install:
+      - cp -r /run/build/wine /app/wine
+    sources:
+      - type: git
+        url: https://gitlab.winehq.org/wine/wine.git
+        tag: *wine-version
+
+  - name: wine-32bit-tools
+    build-options:
+      append-path: /usr/lib/sdk/toolchain-i386/bin
+    config-opts:
+      - --libdir=/app/lib32
+      - --with-mingw=ccache i686-w64-mingw32-gcc
+      - <<: *wine-common-config-args
+      - PKG_CONFIG_PATH=/usr/lib/i386-linux-gnu/pkgconfig
+      - CC=ccache i686-unknown-linux-gnu-gcc
+      - CXX=ccache i686-unknown-linux-gnu-g++
+      - CROSSCC=ccache i686-w64-mingw32-gcc
+      - CROSSCX=ccache i686-w64-mingw32-g++
+    post-install:
+      - cp -r /run/build/wine-32bit-tools /app/wine32tools
+    no-make-install: true
+    sources:
+      - type: git
+        url: https://gitlab.winehq.org/wine/wine.git
+        tag: *wine-version
+
+  - name: wine-32bit
+    build-options:
+      append-path: /usr/lib/sdk/toolchain-i386/bin
+    config-opts:
+      - --libdir=/app/lib32
+      - --with-wine64=/app/wine
+      - --with-wine-tools=/app/wine32tools
+      - --with-mingw=ccache i686-w64-mingw32-gcc
+      - <<: *wine-common-config-args
+      - PKG_CONFIG_PATH=/usr/lib/i386-linux-gnu/pkgconfig
+      - CC=ccache i686-unknown-linux-gnu-gcc
+      - CXX=ccache i686-unknown-linux-gnu-g++
+      - CROSSCC=ccache i686-w64-mingw32-gcc
+      - CROSSCX=ccache i686-w64-mingw32-g++
+    cleanup:
+      - <<: *wine-cleanup
+      - /wine32tools
+    sources:
+      - type: git
+        url: https://gitlab.winehq.org/wine/wine.git
+        tag: *wine-version
+
+  - name: wine-64bit-install
+    build-options:
+      env:
+        CC: ccache gcc
+        CXX: ccache g++
+        CROSSCC: ccache x86_64-w64-mingw32-gcc
+        CROSSCXX: ccache x86_64-w64-mingw32-g++
+    buildsystem: simple
+    build-commands:
+      - cd /app/wine && make install
+    cleanup:
+      - <<: *wine-cleanup
+      - /wine
+
+  - name: jagex-launcher-linux
+    buildsystem: simple
+    build-options:
+      build-args:
+        - --share=network
+    build-commands:
+      - mkdir -p /app/Jagex\ Launcher
+      - |
+        export OLDPWD=$PWD \
+        && . venv/bin/activate \
+        && cd /app/Jagex\ Launcher \
+        && python ${OLDPWD}/resources/installer.py \
+        && deactivate \
+        && cd ${OLDPWD} \
+        && rm -rf venv \
+        && unset OLDPWD
+    sources:
+      - type: git
+        url: https://github.com/TormStorm/jagex-launcher-linux.git
+        commit: *jagex-launcher-linux-sha
+      - type: shell
+        commands:
+        - python -m venv venv
+        - . venv/bin/activate && pip install -r resources/requirements.txt && deactivate
+
+  - name: bundle-setup
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/lib/i386-linux-gnu/GL
+      - mkdir -p /app/lib/debug/lib/i386-linux-gnu
+      - install -Dm755 launch.sh /app/bin/launch.sh
+      - install -Dm644 ld.so.conf /app/etc/ld.so.conf
+      - install -Dm644 16x16.png /app/share/icons/hicolor/16x16/apps/com.jagex.Launcher.png
+      - install -Dm644 32x32.png /app/share/icons/hicolor/32x32/apps/com.jagex.Launcher.png
+      - install -Dm644 48x48.png /app/share/icons/hicolor/48x48/apps/com.jagex.Launcher.png
+      - install -Dm644 64x64.png /app/share/icons/hicolor/64x64/apps/com.jagex.Launcher.png
+      - install -Dm644 128x128.png /app/share/icons/hicolor/128x128/apps/com.jagex.Launcher.png
+      - install -Dm644 256x256.png /app/share/icons/hicolor/256x256/apps/com.jagex.Launcher.png
+      - install -D com.jagex.Launcher.desktop /app/share/applications/com.jagex.Launcher.desktop
+      - install -D com.jagex.Launcher.metainfo.xml /app/share/metainfo/com.jagex.Launcher.metainfo.xml
+    sources:
+      - type: inline
+        dest-filename: ld.so.conf
+        contents: |
+          include /run/flatpak/ld.so.conf.d/app-*-org.freedesktop.Platform.GL32.*.conf
+          /app/lib32
+          /app/lib/i386-linux-gnu
+      - type: inline
+        dest-filename: launch.sh
+        contents: |
+          #!/bin/bash
+          set -eu
+          mkdir -p "${WINEPREFIX}/drive_c/Program Files (x86)/"
+          if [ ! -d "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher" ]; then
+            cp -r /app/Jagex\ Launcher "${WINEPREFIX}/drive_c/Program Files (x86)/"
+          fi
+          exec /app/bin/wine "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
+      - type: file
+        path: resources/icons/16x16.png
+      - type: file
+        path: resources/icons/32x32.png
+      - type: file
+        path: resources/icons/48x48.png
+      - type: file
+        path: resources/icons/64x64.png
+      - type: file
+        path: resources/icons/128x128.png
+      - type: file
+        path: resources/icons/256x256.png
+      - type: file
+        path: resources/com.jagex.Launcher.desktop
+      - type: file
+        path: resources/com.jagex.Launcher.metainfo.xml

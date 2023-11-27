@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+    <id>com.jagex.Launcher</id>
+
+    <name>Jagex Launcher</name>
+    <developer_name>Jagex</developer_name>
+    <summary>The Jagex Launcher is the new home for Jagex&apos;s PC games library. Discover, install, and play games from the RuneScape universe and beyond.</summary>
+
+    <categories>
+        <category>Game</category>
+    </categories>
+
+    <metadata_license>FSFAP</metadata_license>
+    <project_license>LicenseRef-proprietary=https://www.jagex.com/en-GB/terms/eula</project_license>
+
+    <supports>
+        <control>pointing</control>
+        <control>keyboard</control>
+        <control>touch</control>
+    </supports>
+
+    <description>
+        <p>The Jagex Launcher is the new home for Jagex&apos;s PC games library. Discover, install, and play games from the RuneScape universe and beyond.</p>
+    </description>
+
+    <launchable type="desktop-id">com.jagex.Launcher.desktop</launchable>
+
+    <url type="homepage">https://www.jagex.com/en-GB/launcher</url>
+</component>

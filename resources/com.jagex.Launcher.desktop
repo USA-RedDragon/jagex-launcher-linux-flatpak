@@ -2,7 +2,7 @@
 Type=Application
 Name=Jagex Launcher
 Comment=The Jagex Launcher is the new home for Jagex's PC games library. Discover, install, and play games from the RuneScape universe and beyond.
-Exec=wine Jagex\ Launcher/JagexLauncher.exe
-Icon=Jagex Launcher
 Terminal=false
 Categories=Game;
+Icon=com.jagex.Launcher
+Exec=/app/bin/launch.sh --disable-gpu-sandbox --no-sandbox

@@ -1,10 +1,4 @@
-jagex-launcher-linux/
-rs/
-wine-src/
 *.log
-appdir/wine/
-appdir/*.ico
-appdir/*.png
-appdir/Jagex Launcher/
-appdir.golden/
-*.AppImage
+.flatpak-builder
+out/
+resources/icons/*.png
