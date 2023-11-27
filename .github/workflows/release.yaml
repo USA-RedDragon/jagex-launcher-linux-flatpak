@@ -56,19 +56,22 @@ jobs:
       # Now we have a com.jagex.Launcher.flatpak file in the root of the repository and an updated repo/ repository.
       - name: Create release
         id: create-release
-        uses: actions/create-release@v1
-        with:
-          tag_name: ${{ github.run_id }}${{ github.run_attempt }}
-          release_name: ${{ github.run_id }}${{ github.run_attempt }}
-          draft: false
-          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.run_id }}${{ github.run_attempt }}
+        run: |
+          gh release create "$tag" \
+              --repo="$GITHUB_REPOSITORY" \
+              --title="Release $tag" \
+              --generate-notes
+          echo 'tag=$tag' >> $GITHUB_OUTPUT
       - name: Upload Flatpak
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: com.jagex.Launcher.flatpak
-          asset_name: com.jagex.Launcher.flatpak
-          asset_content_type: application/x-flatpak
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.create-release.outputs.tag }}
+        run:
+          gh release upload "$tag" com.jagex.Launcher.flatpak \
+              --repo="$GITHUB_REPOSITORY"
       - name: Push Flatpak repository
         run: |
           git config --global user.name "GitHub Actions"
