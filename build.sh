@@ -34,3 +34,7 @@ if [[ ${HAS_NVIDIA} -eq 1 ]]; then
 fi
 
 flatpak-builder --user --force-clean out com.jagex.Launcher.yaml
+flatpak build-export export out
+flatpak build-bundle -vv export com.jagex.Launcher.flatpak com.jagex.Launcher --repo-url=https://flatpak.mcswain.dev --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
+
+echo "Built flatpak to com.jagex.Launcher.flatpak"

@@ -1,4 +1,6 @@
 *.log
 .flatpak-builder
 out/
+export/
 resources/icons/*.png
+*.flatpak
