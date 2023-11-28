@@ -218,6 +218,19 @@ modules:
         dest-filename: RuneLite.jar
         sha256: b73561c714ad58984669f0b909731d4cc4c6bacdbf07d227006243d1b566138b
 
+  - name: hdos
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/HDOS
+      - cp -r -v HDOS.jar /app/HDOS
+      - echo -e "#!/bin/bash\n/app/jre/bin/java -jar /app/HDOS/HDOS.jar" > /app/HDOS/HDOS.exe
+      - chmod +x /app/HDOS/HDOS.exe
+    sources:
+      - type: file
+        url: https://cdn.hdos.dev/launcher/latest/hdos-launcher.jar
+        dest-filename: HDOS.jar
+        sha256: d3475d791fa8bfa4e3ae7fa9b1c5e86a8e02d1e93f88ff4776582af78ea92fc0
+
   - name: bundle-setup
     buildsystem: simple
     build-commands:
@@ -264,6 +277,11 @@ modules:
           # Check WINEPREFIX for RuneLite Launcher_is1 key
           if ! grep -q "RuneLite Launcher_is1" "${WINEPREFIX}/drive_c/user.reg"; then
             wine reg.exe add "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\RuneLite Launcher_is1" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\RuneLite" /f
+          fi
+
+          # Check WINEPREFIX for HDOS Launcher_is1 key
+          if ! grep -q "HDOS Launcher_is1" "${WINEPREFIX}/drive_c/user.reg"; then
+            wine reg.exe add "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\HDOS Launcher_is1" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\HDOS" /f
           fi
 
           exec /app/bin/wine "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
