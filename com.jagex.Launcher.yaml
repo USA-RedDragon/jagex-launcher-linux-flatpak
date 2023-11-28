@@ -200,7 +200,6 @@ modules:
         - python -m venv venv
         - . venv/bin/activate && pip install -r resources/requirements.txt && deactivate
 
-
   - name: openjdk
     buildsystem: simple
     build-commands:
@@ -211,6 +210,8 @@ modules:
     build-commands:
       - mkdir -p /app/RuneLite
       - cp -r -v RuneLite.jar /app/RuneLite
+      - echo -e "#!/bin/bash\n/app/jre/bin/java -jar /app/RuneLite/RuneLite.jar" > /app/RuneLite/RuneLite.exe
+      - chmod +x /app/RuneLite/RuneLite.exe
     sources:
       - type: file
         url: https://github.com/runelite/launcher/releases/download/2.6.10/RuneLite.jar
@@ -260,42 +261,9 @@ modules:
             wineboot -u
           fi
 
-          mkdir -p "${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite"
-          cp /app/RuneLite/RuneLite.jar "${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite/RuneLite.jar"
-
-          echo -e "#!/bin/bash\n/app/jre/bin/java -jar ${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite/RuneLite.jar" > "${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite/RuneLite.exe"
-          chmod +x "${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite/RuneLite.exe"
-
           # Check WINEPREFIX for RuneLite Launcher_is1 key
-          # If it doesn't exist, create it
           if ! grep -q "RuneLite Launcher_is1" "${WINEPREFIX}/drive_c/user.reg"; then
-            cat << __EOF__ >> "${WINEPREFIX}/drive_c/user.reg"
-          [Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Uninstall\\\\RuneLite Launcher_is1] 1701129566
-          #time=1da218dc09b065e
-          "DisplayIcon"="C:\\\\users\\\\${USER}\\\\AppData\\\\Local\\\\RuneLite\\\\RuneLite.exe"
-          "DisplayName"="RuneLite"
-          "DisplayVersion"="2.6.10"
-          "EstimatedSize"=dword:000266ed
-          "HelpLink"="https://runelite.net/"
-          "Inno Setup: App Path"="C:\\\\users\\\\${USER}\\\\AppData\\\\Local\\\\RuneLite"
-          "Inno Setup: Deselected Tasks"="desktopicon"
-          "Inno Setup: Icon Group"="(Default)"
-          "Inno Setup: Language"="default"
-          "Inno Setup: Selected Tasks"=""
-          "Inno Setup: Setup Version"="6.2.2"
-          "Inno Setup: User"="${USER}"
-          "InstallDate"="20231127"
-          "InstallLocation"="C:\\\\users\\\\${USER}\\\\AppData\\\\Local\\\\RuneLite\\\\"
-          "MajorVersion"=dword:00000002
-          "MinorVersion"=dword:00000006
-          "NoModify"=dword:00000001
-          "NoRepair"=dword:00000001
-          "Publisher"="RuneLite"
-          "QuietUninstallString"="\"C:\\\\users\\\\${USER}\\\\AppData\\\\Local\\\\RuneLite\\\\unins000.exe\" /SILENT"
-          "UninstallString"="\"C:\\\\users\\\\${USER}\\\\AppData\\\\Local\\\\RuneLite\\\\unins000.exe\""
-          "VersionMajor"=dword:00000002
-          "VersionMinor"=dword:00000006
-          __EOF__
+            wine reg.exe add "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\RuneLite Launcher_is1" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\RuneLite" /f
           fi
 
           exec /app/bin/wine "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
