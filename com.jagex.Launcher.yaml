@@ -257,8 +257,6 @@ modules:
         dest-filename: launch.sh
         contents: |
           #!/bin/bash
-          set -eu
-
           # Cleanup any old RuneLite attempts
           rm -rf "${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite"
           rm -f "${WINEPREFIX}/drive_c/user.reg"
