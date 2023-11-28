@@ -51,4 +51,4 @@ flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --install --default-branch=stable --use
 if [[ ${DOSIGN} -eq 0 ]]; then
     flatpak build-export repo out stable
 fi
-flatpak build-update-repo ${GPG_ARGS} repo --title="Jagex Launcher" --generate-static-deltas --default-branch=stable
+flatpak build-update-repo ${GPG_ARGS} repo --title="Jagex Launcher" --generate-static-deltas --default-branch=stable --prune
