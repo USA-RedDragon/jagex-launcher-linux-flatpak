@@ -1,6 +1,6 @@
 # Jagex Launcher Flatpak
 
-This is a Flatpak package for the Jagex Launcher. It packages the [official upstream Wine at the latest version](#why-this-flatpak-as-opposed-to-other-available-options) and the Jagex Launcher.
+This is a Flatpak package for the Jagex Launcher. It packages the [official upstream Wine at the latest version](#why-this-flatpak-as-opposed-to-other-available-options), RuneLite, and the Jagex Launcher.
 
 ## Installation
 
@@ -58,7 +58,7 @@ The `nmlynch94` launcher [uses](https://github.com/nmlynch94/com.jagexlauncher.J
 
 #### Custom Clients
 
-The `nmlynch94` launcher contains support for other clients such as HDOS and Runelite. If these clients are important to you, you should use the `nmlynch94` launcher. However, if you only care about the official Jagex client, this launcher is a better option.
+The `nmlynch94` launcher contains support for other clients such as HDOS. If these clients are important to you, you should use the `nmlynch94` launcher. However, if you only care about the official Jagex client and RuneLite, this launcher is a better option.
 
 #### Copyrighted Content
 

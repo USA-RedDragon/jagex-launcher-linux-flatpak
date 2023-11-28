@@ -27,6 +27,7 @@ sdk-extensions:
   - org.freedesktop.Sdk.Compat.i386
   - org.freedesktop.Sdk.Extension.toolchain-i386
   - org.freedesktop.Sdk.Extension.mingw-w64
+  - org.freedesktop.Sdk.Extension.openjdk11
 add-extensions:
   org.freedesktop.Platform.Compat.i386:
     directory: lib/i386-linux-gnu
@@ -199,6 +200,23 @@ modules:
         - python -m venv venv
         - . venv/bin/activate && pip install -r resources/requirements.txt && deactivate
 
+
+  - name: openjdk
+    buildsystem: simple
+    build-commands:
+      - /usr/lib/sdk/openjdk11/install.sh
+
+  - name: runelite
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/RuneLite
+      - cp -r -v RuneLite.jar /app/RuneLite
+    sources:
+      - type: file
+        url: https://github.com/runelite/launcher/releases/download/2.6.10/RuneLite.jar
+        dest-filename: RuneLite.jar
+        sha256: b73561c714ad58984669f0b909731d4cc4c6bacdbf07d227006243d1b566138b
+
   - name: bundle-setup
     buildsystem: simple
     build-commands:
@@ -217,7 +235,7 @@ modules:
       - |
         rm -rf /app/bin/function_grep.pl /app/bin/msidb /app/bin/msiexec /app/bin/notepad \
           /app/bin/regedit /app/bin/regsvr32 /app/bin/widl /app/bin/wine-preloader \
-          /app/bin/wine64-preloader /app/bin/wineboot /app/bin/winebuild \
+          /app/bin/wine64-preloader /app/bin/winebuild \
           /app/bin/wineconsole /app/bin/winecpp /app/bin/winedbg /app/bin/winedump \
           /app/bin/winefile /app/bin/wineg++ /app/bin/winegcc /app/bin/winemaker \
           /app/bin/winemine /app/bin/winepath /app/bin/wmc /app/bin/wrc /app/include/wine \
@@ -239,7 +257,47 @@ modules:
           mkdir -p "${WINEPREFIX}/drive_c/Program Files (x86)/"
           if [ ! -d "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher" ]; then
             cp -r /app/Jagex\ Launcher "${WINEPREFIX}/drive_c/Program Files (x86)/"
+            wineboot -u
           fi
+
+          mkdir -p "${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite"
+          cp /app/RuneLite/RuneLite.jar "${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite/RuneLite.jar"
+
+          echo -e "#!/bin/bash\n/app/jre/bin/java -jar ${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite/RuneLite.jar" > "${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite/RuneLite.exe"
+          chmod +x "${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite/RuneLite.exe"
+
+          # Check WINEPREFIX for RuneLite Launcher_is1 key
+          # If it doesn't exist, create it
+          if ! grep -q "RuneLite Launcher_is1" "${WINEPREFIX}/drive_c/user.reg"; then
+            cat << __EOF__ >> "${WINEPREFIX}/drive_c/user.reg"
+          [Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Uninstall\\\\RuneLite Launcher_is1] 1701129566
+          #time=1da218dc09b065e
+          "DisplayIcon"="C:\\\\users\\\\${USER}\\\\AppData\\\\Local\\\\RuneLite\\\\RuneLite.exe"
+          "DisplayName"="RuneLite"
+          "DisplayVersion"="2.6.10"
+          "EstimatedSize"=dword:000266ed
+          "HelpLink"="https://runelite.net/"
+          "Inno Setup: App Path"="C:\\\\users\\\\${USER}\\\\AppData\\\\Local\\\\RuneLite"
+          "Inno Setup: Deselected Tasks"="desktopicon"
+          "Inno Setup: Icon Group"="(Default)"
+          "Inno Setup: Language"="default"
+          "Inno Setup: Selected Tasks"=""
+          "Inno Setup: Setup Version"="6.2.2"
+          "Inno Setup: User"="${USER}"
+          "InstallDate"="20231127"
+          "InstallLocation"="C:\\\\users\\\\${USER}\\\\AppData\\\\Local\\\\RuneLite\\\\"
+          "MajorVersion"=dword:00000002
+          "MinorVersion"=dword:00000006
+          "NoModify"=dword:00000001
+          "NoRepair"=dword:00000001
+          "Publisher"="RuneLite"
+          "QuietUninstallString"="\"C:\\\\users\\\\${USER}\\\\AppData\\\\Local\\\\RuneLite\\\\unins000.exe\" /SILENT"
+          "UninstallString"="\"C:\\\\users\\\\${USER}\\\\AppData\\\\Local\\\\RuneLite\\\\unins000.exe\""
+          "VersionMajor"=dword:00000002
+          "VersionMinor"=dword:00000006
+          __EOF__
+          fi
+
           exec /app/bin/wine "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
       - type: file
         path: resources/icons/16x16.png

@@ -29,6 +29,7 @@ flatpak install --user -y --noninteractive flathub \
     org.freedesktop.Sdk.Compat.i386/x86_64/${FREEDESKTOP_SDK_VERSION} \
     org.freedesktop.Sdk.Extension.toolchain-i386/x86_64/${FREEDESKTOP_SDK_VERSION} \
     org.freedesktop.Sdk.Extension.mingw-w64/x86_64/${FREEDESKTOP_SDK_VERSION} \
+    org.freedesktop.Sdk.Extension.openjdk11/x86_64/${FREEDESKTOP_SDK_VERSION} \
     org.freedesktop.Platform.Compat.i386/x86_64/${FREEDESKTOP_SDK_VERSION} \
     org.freedesktop.Platform.GL32.default/x86_64/${FREEDESKTOP_SDK_VERSION} \
     org.freedesktop.Platform.GL.default/x86_64/${FREEDESKTOP_SDK_VERSION}
