@@ -213,7 +213,7 @@ modules:
     build-commands:
       - mkdir -p /app/HDOS
       - cp -r -v HDOS.jar /app/HDOS
-      - echo -e "#!/bin/bash\n/app/jre/bin/java -jar /app/HDOS/HDOS.jar" > /app/HDOS/HDOS.exe
+      - echo -e "#!/bin/bash\nenv _JAVA_OPTIONS=-Duser.home=\${XDG_DATA_HOME}/hdos /app/jre/bin/java -jar /app/HDOS/HDOS.jar" > /app/HDOS/HDOS.exe
       - chmod +x /app/HDOS/HDOS.exe
     sources:
       - type: file
@@ -257,9 +257,10 @@ modules:
         dest-filename: launch.sh
         contents: |
           #!/bin/bash
-          # Cleanup any old RuneLite attempts
-          rm -rf "${WINEPREFIX}/drive_c/users/${USER}/AppData/Local/RuneLite"
-          rm -f "${WINEPREFIX}/drive_c/user.reg"
+
+          # Clear any potential jagexcache so we can symlink it to the persisted jagexcache
+          rm -rf "${XDG_DATA_HOME}/hdos/jagexcache"
+          ln -sf ../../jagexcache ${XDG_DATA_HOME}/hdos/jagexcache
 
           mkdir -p "${WINEPREFIX}/drive_c/Program Files (x86)/"
           if [ ! -d "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher" ]; then
