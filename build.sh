@@ -52,31 +52,3 @@ if [[ ${DOSIGN} -eq 0 ]]; then
     flatpak build-export repo out stable
 fi
 flatpak build-update-repo ${GPG_ARGS} repo --title="Jagex Launcher" --generate-static-deltas --default-branch=stable
-
-flatpak build-bundle ${GPG_ARGS} --repo-url=https://jagexlauncher.flatpak.mcswain.dev --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo repo com.jagex.Launcher.flatpak com.jagex.Launcher stable &
-PID=$!
-
-COUNTER=0
-# Timeout after 1 hour
-MAX_COUNTER=3600
-while kill -0 $PID 2> /dev/null; do
-    NUM_DOT=$((COUNTER%5))
-    DOTS=$(printf '.%.0s' $(seq 0 $NUM_DOT))
-    # Overwrite the line
-    echo "Exporting flatpak${DOTS}"
-    COUNTER=$((COUNTER+1))
-    if [[ ${COUNTER} -gt ${MAX_COUNTER} ]]; then
-        echo "Timed out after 1 hour"
-        exit 1
-    fi
-    sleep 1
-done
-
-# Check exit code
-wait $PID
-if [[ $? -ne 0 ]]; then
-    echo "Failed to export flatpak"
-    exit 1
-fi
-
-echo "Built flatpak to com.jagex.Launcher.flatpak"

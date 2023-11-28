@@ -58,24 +58,6 @@ jobs:
       - name: Build Flatpak
         run: |
           ./build.sh sign
-      # Now we have a com.jagex.Launcher.flatpak file in the root of the repository and an updated repo/ repository.
-      - name: Create release
-        id: create-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.run_number }}${{ github.run_attempt }}
-        run: |
-          gh release create "$tag" \
-              --repo="$GITHUB_REPOSITORY" \
-              --title="Release $tag" \
-              --generate-notes
-          echo "tag=$tag" >> $GITHUB_OUTPUT
-      - name: Upload Flatpak
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.create-release.outputs.tag }}
-        run:
-          gh release upload "$tag" --repo="$GITHUB_REPOSITORY" com.jagex.Launcher.flatpak
       - name: Push Flatpak repository
         run: |
           git config --global user.name "GitHub Actions"
