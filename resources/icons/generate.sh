@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # renovate: sha: datasource=git-refs depName=jagex-launcher-linux packageName=https://github.com/TormStorm/jagex-launcher-linux branch=main
-JAGEX_LAUNCHER_LINUX_SHA=68bc61420cbec46117de8dd4b0c5ed07e855e342
+JAGEX_LAUNCHER_LINUX_SHA=3631e4ee4cb2d21f4cb9b8a2006a1240d9fa31b4
 
 __PWD=$(pwd)
 
