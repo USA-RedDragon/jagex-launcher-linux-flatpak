@@ -55,18 +55,6 @@ add-extensions:
     download-if: active-gl-driver
     enable-if: active-gl-driver
 
-  org.freedesktop.Platform.ffmpeg-full:
-    directory: lib/ffmpeg
-    add-ld-path: .
-    version: *runtime-version
-    autodelete: false
-
-  org.freedesktop.Platform.ffmpeg_full.i386:
-    directory: lib32/ffmpeg
-    add-ld-path: .
-    version: *runtime-version
-    autodelete: false
-
 x-wine-common-config-args: &wine-common-config-args
   - --exec-prefix="/app"
   - --prefix="/app"
