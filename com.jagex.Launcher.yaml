@@ -20,6 +20,8 @@ finish-args:
   - --device=dri
   - --share=network
   - --socket=pulseaudio
+  - --persist=.runelite
+  - --persist=hdos
   - --env=WINEPREFIX=/var/data/wine
   - --env=WINEARCH=win64
   - --env=GST_PLUGIN_SYSTEM_PATH=/app/lib32/gstreamer-1.0:/app/lib/gstreamer-1.0:/usr/lib/i386-linux-gnu/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0
