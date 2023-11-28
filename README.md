@@ -11,10 +11,17 @@ It is unlikely that Flathub would accept a proprietary application like the Jage
 You can install it by adding the remote and installing it with the following commands:
 
 ```bash
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak remote-add --user --if-not-exists JagexLauncher https://jagexlauncher.flatpak.mcswain.dev/JagexLauncher.flatpakrepo
 # Required for 32-bit compatibility. Jagex Launcher is 32-bit.
 flatpak install --user flathub org.freedesktop.Platform.Compat.i386/x86_64/23.08
 flatpak install --user JagexLauncher com.jagex.Launcher
+```
+
+You can also use the install script which manages the remote and installs the Flatpak, including Nvidia drivers if needed:
+
+```bash
+curl -fSsL https://raw.githubusercontent.com/USA-RedDragon/jagex-launcher-flatpak/main/install.sh | bash
 ```
 
 ### Nvidia GPU Drivers
