@@ -271,8 +271,8 @@ modules:
           mkdir -p "${WINEPREFIX}/drive_c/Program Files (x86)/"
           if [ ! -d "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher" ]; then
             cp -r /app/Jagex\ Launcher "${WINEPREFIX}/drive_c/Program Files (x86)/"
-            wineboot -u
           fi
+          wineboot -u
 
           # Check WINEPREFIX for RuneLite Launcher_is1 key
           if ! grep -q "RuneLite Launcher_is1" "${WINEPREFIX}/drive_c/user.reg"; then
