@@ -13,8 +13,8 @@ It is unlikely that Flathub would accept a proprietary application like the Jage
 You can install it by adding the remote and installing it with the following commands:
 
 ```bash
-flatpak remote-add --if-not-exists usareddragon https://jagexlauncher.flatpak.mcswain.dev/.flatpakrepo
-flatpak install --user usareddragon com.jagex.Launcher
+flatpak remote-add --if-not-exists JagexLauncher https://jagexlauncher.flatpak.mcswain.dev/.flatpakrepo
+flatpak install --user JagexLauncher com.jagex.Launcher
 ```
 
 ### Manual Download
