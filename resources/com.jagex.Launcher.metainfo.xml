@@ -26,4 +26,18 @@
     <launchable type="desktop-id">com.jagex.Launcher.desktop</launchable>
 
     <url type="homepage">https://www.jagex.com/en-GB/launcher</url>
+
+    <content_rating type="oars-1.1">
+        <content_attribute id="violence-cartoon">moderate</content_attribute>
+        <content_attribute id="violence-fantasy">intense</content_attribute>
+        <content_attribute id="violence-bloodshed">mild</content_attribute>
+        <content_attribute id="drugs-alcohol">moderate</content_attribute>
+        <content_attribute id="drugs-narcotics">mild</content_attribute>
+        <content_attribute id="drugs-tobacco">mild</content_attribute>
+        <content_attribute id="sex-themes">mild</content_attribute>
+        <content_attribute id="language-profanity">mild</content_attribute>
+        <content_attribute id="social-chat">intense</content_attribute>
+        <content_attribute id="social-info">moderate</content_attribute>
+        <content_attribute id="money-purchasing">mild</content_attribute> <!-- as an RS3 player I must chuckle at "mild" -->
+    </content_rating>
 </component>
