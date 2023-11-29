@@ -42,16 +42,6 @@ add-extensions:
     download-if: active-gl-driver
     enable-if: active-gl-driver
 
-  org.freedesktop.Platform.VAAPI.Intel.i386:
-    directory: lib/i386-linux-gnu/dri/intel-vaapi-driver
-    version: *runtime-version
-    subdirectories: true
-    no-autodownload: true
-    autodelete: false
-    add-ld-path: lib
-    download-if: active-gl-driver
-    enable-if: active-gl-driver
-
 modules:
   - name: wine
     buildsystem: simple
