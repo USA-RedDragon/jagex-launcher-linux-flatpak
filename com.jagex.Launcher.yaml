@@ -2,8 +2,6 @@
 x-runtime-version: &runtime-version '23.08'
 x-gl-version: &gl-version '1.4'
 x-gl-versions: &gl-versions 23.08;1.4
-# renovate: datasource=git-tags depName=https://gitlab.winehq.org/wine/wine
-x-wine-version: &wine-version 'wine-8.20'
 # renovate: sha: datasource=git-refs depName=jagex-launcher-linux packageName=https://github.com/TormStorm/jagex-launcher-linux branch=main
 x-jagex-launcher-linux-sha: &jagex-launcher-linux-sha '07972dae16b9d8abf6bcdf9a52d7a68e958f055d'
 
@@ -29,7 +27,6 @@ finish-args:
 sdk-extensions:
   - org.freedesktop.Sdk.Compat.i386
   - org.freedesktop.Sdk.Extension.toolchain-i386
-  - org.freedesktop.Sdk.Extension.mingw-w64
   - org.freedesktop.Sdk.Extension.openjdk11
 add-extensions:
   org.freedesktop.Platform.Compat.i386:
@@ -58,113 +55,17 @@ add-extensions:
     download-if: active-gl-driver
     enable-if: active-gl-driver
 
-x-wine-common-config-args: &wine-common-config-args
-  - --exec-prefix="/app"
-  - --prefix="/app"
-  - --enable-shared
-  - --disable-win16
-  - --disable-tests
-  - --disable-static
-  - --without-capi
-  - --without-cups
-  - --without-dbus
-  - --without-fontconfig
-  - --without-gettext
-  - --without-gphoto
-  - --without-gssapi
-  - --without-inotify
-  - --without-krb5
-  - --without-netapi
-  - --without-opencl
-  - --without-osmesa
-  - --without-oss
-  - --without-pcap
-  - --without-pcsclite
-  - --without-capi
-  - --without-sane
-  - --without-sdl
-  - --without-udev
-  - --without-usb
-  - --without-v4l2
-  - --with-x
-  - --with-wayland
-  - --without-xfixes
-  - --without-xinerama
-  - --without-xinput
-  - --without-xrandr
-  - --without-xxf86vm
-  - --without-xcursor
-  - --without-xinput2
-
 modules:
   - name: wine
-    build-options:
-      env:
-        CC: ccache gcc
-        CXX: ccache g++
-        CROSSCC: ccache x86_64-w64-mingw32-gcc
-        CROSSCXX: ccache x86_64-w64-mingw32-g++
-    config-opts:
-      - --enable-win64
-      - --with-mingw=ccache x86_64-w64-mingw32-gcc
-      - <<: *wine-common-config-args
-    no-make-install: true
-    post-install:
-      - cp -r /run/build/wine /app/wine
-    sources:
-      - type: git
-        url: https://gitlab.winehq.org/wine/wine.git
-        tag: *wine-version
-
-  - name: wine-32bit-tools
-    build-options:
-      append-path: /usr/lib/sdk/toolchain-i386/bin
-    config-opts:
-      - --libdir=/app/lib32
-      - --with-mingw=ccache i686-w64-mingw32-gcc
-      - <<: *wine-common-config-args
-      - PKG_CONFIG_PATH=/usr/lib/i386-linux-gnu/pkgconfig
-      - CC=ccache i686-unknown-linux-gnu-gcc
-      - CXX=ccache i686-unknown-linux-gnu-g++
-      - CROSSCC=ccache i686-w64-mingw32-gcc
-      - CROSSCX=ccache i686-w64-mingw32-g++
-    post-install:
-      - cp -r /run/build/wine-32bit-tools /app/wine32tools
-    no-make-install: true
-    sources:
-      - type: git
-        url: https://gitlab.winehq.org/wine/wine.git
-        tag: *wine-version
-
-  - name: wine-32bit
-    build-options:
-      append-path: /usr/lib/sdk/toolchain-i386/bin
-    config-opts:
-      - --libdir=/app/lib32
-      - --with-wine64=/app/wine
-      - --with-wine-tools=/app/wine32tools
-      - --with-mingw=ccache i686-w64-mingw32-gcc
-      - <<: *wine-common-config-args
-      - PKG_CONFIG_PATH=/usr/lib/i386-linux-gnu/pkgconfig
-      - CC=ccache i686-unknown-linux-gnu-gcc
-      - CXX=ccache i686-unknown-linux-gnu-g++
-      - CROSSCC=ccache i686-w64-mingw32-gcc
-      - CROSSCX=ccache i686-w64-mingw32-g++
-    sources:
-      - type: git
-        url: https://gitlab.winehq.org/wine/wine.git
-        tag: *wine-version
-
-  - name: wine-64bit-install
-    build-options:
-      env:
-        CC: ccache gcc
-        CXX: ccache g++
-        CROSSCC: ccache x86_64-w64-mingw32-gcc
-        CROSSCXX: ccache x86_64-w64-mingw32-g++
     buildsystem: simple
     build-commands:
-      - cd /app/wine && make install
+      - mkdir -p /app/wine
+      - cp -r * /app/wine
+    sources:
+      - type: archive
+        url: https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-24/wine-lutris-GE-Proton8-24-x86_64.tar.xz
+        archive-type: tar-xz
+        sha256: 9813f345b26e1f9f978b42674fc875fbe7cdbac1384e099b490f5211946f54d1
 
   - name: jagex-launcher-linux
     buildsystem: simple
@@ -237,15 +138,15 @@ modules:
       - install -Dm644 256x256.png /app/share/icons/hicolor/256x256/apps/com.jagex.Launcher.png
       - install -D com.jagex.Launcher.desktop /app/share/applications/com.jagex.Launcher.desktop
       - install -D com.jagex.Launcher.metainfo.xml /app/share/metainfo/com.jagex.Launcher.metainfo.xml
-      - |
-        rm -rf /app/bin/function_grep.pl /app/bin/msidb /app/bin/msiexec /app/bin/notepad \
-          /app/bin/regedit /app/bin/regsvr32 /app/bin/widl /app/bin/wine-preloader \
-          /app/bin/wine64-preloader /app/bin/winebuild \
-          /app/bin/wineconsole /app/bin/winecpp /app/bin/winedbg /app/bin/winedump \
-          /app/bin/winefile /app/bin/wineg++ /app/bin/winegcc /app/bin/winemaker \
-          /app/bin/winemine /app/bin/winepath /app/bin/wmc /app/bin/wrc /app/include/wine \
-          /app/lib/debug /app/share/man /app/share/applications/wine.desktop /app/wine \
-          /app/wine32tools
+      # - |
+      #   rm -rf /app/bin/msidb /app/bin/msiexec /app/bin/notepad \
+      #     /app/bin/regedit /app/bin/regsvr32 /app/bin/widl /app/bin/wine-preloader \
+      #     /app/bin/wine64-preloader /app/bin/winebuild \
+      #     /app/bin/wineconsole /app/bin/winecpp /app/bin/winedbg /app/bin/winedump \
+      #     /app/bin/winefile /app/bin/wineg++ /app/bin/winegcc /app/bin/winemaker \
+      #     /app/bin/winemine /app/bin/winepath /app/bin/wmc /app/bin/wrc /app/include/wine \
+      #     /app/lib/debug /app/share/man /app/share/applications/wine.desktop /app/wine \
+      #     /app/wine32tools
 
     sources:
       - type: inline
@@ -267,19 +168,19 @@ modules:
           if [ ! -d "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher" ]; then
             cp -r /app/Jagex\ Launcher "${WINEPREFIX}/drive_c/Program Files (x86)/"
           fi
-          wineboot -u
+          /app/wine/bin/wineboot -u
 
           # Check WINEPREFIX for RuneLite Launcher_is1 key
           if ! grep -q "RuneLite Launcher_is1" "${WINEPREFIX}/drive_c/user.reg"; then
-            wine reg.exe add "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\RuneLite Launcher_is1" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\RuneLite" /f
+            /app/wine/bin/wine reg.exe add "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\RuneLite Launcher_is1" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\RuneLite" /f
           fi
 
           # Check WINEPREFIX for HDOS Launcher_is1 key
           if ! grep -q "HDOS Launcher_is1" "${WINEPREFIX}/drive_c/user.reg"; then
-            wine reg.exe add "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\HDOS Launcher_is1" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\HDOS" /f
+            /app/wine/bin/wine reg.exe add "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\HDOS Launcher_is1" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\HDOS" /f
           fi
 
-          exec /app/bin/wine "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
+          exec /app/wine/bin/wine "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
       - type: file
         path: resources/icons/16x16.png
       - type: file
