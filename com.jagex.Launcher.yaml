@@ -58,6 +58,9 @@ modules:
     buildsystem: simple
     build-options:
       build-args:
+        # Allow pip to install packages. Since these packages
+        # never get installed into the final flatpak I'm
+        # not very concerned with the reproducibility of this.
         - --share=network
     build-commands:
       - mkdir -p /app/Jagex\ Launcher
