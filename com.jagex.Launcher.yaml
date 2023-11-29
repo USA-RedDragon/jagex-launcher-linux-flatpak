@@ -13,8 +13,7 @@ command: /app/bin/launch.sh
 finish-args:
   - --allow=multiarch
   - --share=ipc
-  - --socket=fallback-x11
-  - --socket=wayland
+  - --socket=x11
   - --device=dri
   - --share=network
   - --socket=pulseaudio
