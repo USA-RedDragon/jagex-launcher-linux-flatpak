@@ -137,15 +137,13 @@ modules:
       - install -Dm644 256x256.png /app/share/icons/hicolor/256x256/apps/com.jagex.Launcher.png
       - install -D com.jagex.Launcher.desktop /app/share/applications/com.jagex.Launcher.desktop
       - install -D com.jagex.Launcher.metainfo.xml /app/share/metainfo/com.jagex.Launcher.metainfo.xml
-      # - |
-      #   rm -rf /app/bin/msidb /app/bin/msiexec /app/bin/notepad \
-      #     /app/bin/regedit /app/bin/regsvr32 /app/bin/widl /app/bin/wine-preloader \
-      #     /app/bin/wine64-preloader /app/bin/winebuild \
-      #     /app/bin/wineconsole /app/bin/winecpp /app/bin/winedbg /app/bin/winedump \
-      #     /app/bin/winefile /app/bin/wineg++ /app/bin/winegcc /app/bin/winemaker \
-      #     /app/bin/winemine /app/bin/winepath /app/bin/wmc /app/bin/wrc /app/include/wine \
-      #     /app/lib/debug /app/share/man /app/share/applications/wine.desktop /app/wine \
-      #     /app/wine32tools
+      - |
+        rm -rf /app/wine/bin/msidb /app/wine/bin/msiexec /app/wine/bin/notepad \
+          /app/wine/bin/regedit /app/wine/bin/regsvr32 /app/wine/bin/wine-preloader \
+          /app/wine/bin/wine64-preloader /app/wine/bin/wineconsole /app/wine/bin/winedbg \
+          /app/wine/bin/wineconsole /app/wine/bin/winedbg /app/wine/bin/winefile \
+          /app/wine/bin/winemine /app/wine/bin/winepath /app/lib/debug \
+          /app/wine/share/man /app/wine/share/applications/wine.desktop
 
     sources:
       - type: inline
