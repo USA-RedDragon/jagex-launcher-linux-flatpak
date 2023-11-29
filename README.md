@@ -45,6 +45,10 @@ flatpak install --user flathub org.freedesktop.Platform.GL.nvidia-545-29-02/x86_
 flatpak install --user flathub org.freedesktop.Platform.GL32.nvidia-545-29-02/x86_64
 ```
 
+## Screenshots
+
+<img width="50%" src="https://jagexlauncher.flatpak.mcswain.dev/screenshot.png" alt="Screenshot of the Jagex Launcher and all 4 RuneScape clients open"></img>
+
 ## Why no Alt1 Toolkit?
 
 The Alt1 Toolkit uses child window rendering that isn't yet supported by Wine. See [this issue](https://bugs.winehq.org/show_bug.cgi?id=45277) for more information.
