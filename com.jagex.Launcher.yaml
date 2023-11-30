@@ -154,6 +154,7 @@ modules:
 
           # Clear any potential jagexcache so we can symlink it to the persisted jagexcache
           rm -rf "${XDG_DATA_HOME}/hdos/jagexcache"
+          mkdir -p "${XDG_DATA_HOME}/hdos"
           ln -sf ../../jagexcache ${XDG_DATA_HOME}/hdos/jagexcache
 
           mkdir -p "${WINEPREFIX}/drive_c/Program Files (x86)/"
