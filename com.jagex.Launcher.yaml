@@ -22,6 +22,7 @@ finish-args:
   - --env=WINEPREFIX=/var/data/wine
   - --env=WINEARCH=win64
   - --env=WINEDLLOVERRIDES=dxgi=b # Fix launch on Steam Deck by using builtin dxgi
+  - --env=GST_PLUGIN_SYSTEM_PATH=/app/lib32/gstreamer-1.0:/app/lib/gstreamer-1.0:/usr/lib/i386-linux-gnu/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0
 sdk-extensions:
   - org.freedesktop.Sdk.Compat.i386
   - org.freedesktop.Sdk.Extension.openjdk11
