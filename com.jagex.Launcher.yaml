@@ -12,6 +12,7 @@ sdk: org.freedesktop.Sdk
 command: /app/bin/launch.sh
 finish-args:
   - --allow=multiarch
+  - --allow=devel
   - --share=ipc
   - --socket=x11
   - --device=dri
