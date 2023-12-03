@@ -26,8 +26,6 @@ finish-args:
   - --env=GST_PLUGIN_SYSTEM_PATH=/app/lib32/gstreamer-1.0:/app/lib/gstreamer-1.0:/usr/lib/i386-linux-gnu/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0
   - --env=mesa_glthread=true
   - --env=MESA_LOADER_DRIVER_OVERRIDE=zink
-  - --env=__NV_PRIME_RENDER_OFFLOAD=1
-  - --env=__VK_LAYER_NV_optimus=NVIDIA_only
 sdk-extensions:
   - org.freedesktop.Sdk.Compat.i386
   - org.freedesktop.Sdk.Extension.openjdk11
