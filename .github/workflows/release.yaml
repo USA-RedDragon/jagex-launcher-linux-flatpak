@@ -60,8 +60,6 @@ jobs:
           ./build.sh sign
       - name: Push Flatpak repository
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email 'bot@noreply.github.com'
           cd repo
           git add -A
           git commit --signoff -m "Update com.jagex.Launcher"
