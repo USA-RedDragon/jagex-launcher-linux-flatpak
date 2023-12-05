@@ -25,10 +25,15 @@ jobs:
           git_config_global: true
           git_user_signingkey: true
           git_commit_gpgsign: true
-      - name: Install dependencies
+      - name: Install yq
         run: |
-          DEBIAN_FRONTEND=noninteractive sudo apt-get update -y
-          sudo apt-get install --no-install-recommends -y yq
+          mkdir -p $HOME/.bin
+          curl -s https://api.github.com/repos/mikefarah/yq/releases/latest \
+          | grep "browser_download_url.*yq_linux_amd64\"" \
+          | cut -d : -f 2,3 | tr -d \" \
+          | wget -qi - -O $HOME/.bin/yq
+          chmod +x $HOME/.bin/yq
+          echo "$HOME/.bin" >> $GITHUB_PATH
       - name: Check for updates
         run: |
           bash ./update.sh
