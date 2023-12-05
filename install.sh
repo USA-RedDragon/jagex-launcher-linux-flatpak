@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-# renovate: datasource=git-tags depName=https://gitlab.com/freedesktop-sdk/freedesktop-sdk.git
+# renovate: datasource=git-tags versioning=regex depName=https://gitlab.com/freedesktop-sdk/freedesktop-sdk.git
 FREEDESKTOP_SDK_GIT_VERSION=freedesktop-sdk-23.08.6
 FREEDESKTOP_SDK_VERSION=$(echo ${FREEDESKTOP_SDK_GIT_VERSION} | cut -d'-' -f3 | cut -d'.' -f1-2)
 
