@@ -43,10 +43,10 @@ jobs:
           # Check git status --porcelain
           if [[ -z $(git status --porcelain) ]]; then
             echo "No changes detected"
-            echo "CHANGES=false" >> $GITHUB_OUTPUTS
+            echo "CHANGES=false" >> $GITHUB_OUTPUT
           else
             echo "Changes detected"
-            echo "CHANGES=true" >> $GITHUB_OUTPUTS
+            echo "CHANGES=true" >> $GITHUB_OUTPUT
           fi
       - name: Commit changes
         if: steps.check-changes.outputs.CHANGES == 'true'
