@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # renovate: sha: datasource=git-refs depName=jagex-launcher-linux packageName=https://github.com/USA-RedDragon/jagex-launcher-linux branch=main
-JAGEX_LAUNCHER_LINUX_SHA=d3653ddc0f2c119f66220c27d4043ca6766007d2
+JAGEX_LAUNCHER_LINUX_SHA=2af41db52fc465bed75e2998aaa50f6e5a8cd1e7
 
 __PWD=$(pwd)
 
@@ -18,10 +18,6 @@ cd ${TMPDIR}/jagex-launcher-linux
 git reset --hard HEAD
 git fetch --all
 git checkout ${JAGEX_LAUNCHER_LINUX_SHA}
-
-python3 -m venv venv
-. venv/bin/activate
-pip install -r resources/requirements.txt
 
 JAGEX_LAUNCHER_PATH=${TMPDIR}/jagex-launcher-linux
 
