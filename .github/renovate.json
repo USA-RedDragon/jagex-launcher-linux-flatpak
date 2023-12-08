@@ -33,6 +33,10 @@
       "matchDepPatterns": [".*freedesktop-sdk.*"],
       "versioning": "regex:^freedesktop-sdk-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$",
       "automerge": false
+    },
+    {
+      "matchPackageNames": ["jagex-launcher-linux"],
+      "automerge": false
     }
   ]
 }
