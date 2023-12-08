@@ -54,6 +54,23 @@ modules:
         url: https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-24/wine-lutris-GE-Proton8-24-x86_64.tar.xz
         archive-type: tar-xz
         sha256: 9813f345b26e1f9f978b42674fc875fbe7cdbac1384e099b490f5211946f54d1
+    cleanup:
+    - /wine/bin/msidb
+    - /wine/bin/wineconsole
+    - /wine/bin/msiexec
+    - /wine/bin/notepad
+    - /wine/bin/regedit
+    - /wine/bin/regsvr32
+    - /wine/bin/wine-preloader
+    - /wine/bin/wine64-preloader
+    - /wine/bin/wineconsole
+    - /wine/bin/winedbg
+    - /wine/bin/winedbg
+    - /wine/bin/winefile
+    - /wine/bin/winemine
+    - /wine/bin/winepath
+    - /wine/share/man
+    - /wine/share/applications/wine.desktop
   - name: jagex-launcher-linux
     buildsystem: simple
     build-options:
@@ -124,13 +141,6 @@ modules:
       - install -Dm644 256x256.png /app/share/icons/hicolor/256x256/apps/com.jagex.Launcher.png
       - install -D com.jagex.Launcher.desktop /app/share/applications/com.jagex.Launcher.desktop
       - install -D com.jagex.Launcher.metainfo.xml /app/share/metainfo/com.jagex.Launcher.metainfo.xml
-      - |
-        rm -rf /app/wine/bin/msidb /app/wine/bin/msiexec /app/wine/bin/notepad \
-          /app/wine/bin/regedit /app/wine/bin/regsvr32 /app/wine/bin/wine-preloader \
-          /app/wine/bin/wine64-preloader /app/wine/bin/wineconsole /app/wine/bin/winedbg \
-          /app/wine/bin/wineconsole /app/wine/bin/winedbg /app/wine/bin/winefile \
-          /app/wine/bin/winemine /app/wine/bin/winepath /app/lib/debug \
-          /app/wine/share/man /app/wine/share/applications/wine.desktop
     sources:
       - type: inline
         dest-filename: ld.so.conf
