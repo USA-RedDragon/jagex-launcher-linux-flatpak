@@ -55,22 +55,22 @@ modules:
         archive-type: tar-xz
         sha256: 9813f345b26e1f9f978b42674fc875fbe7cdbac1384e099b490f5211946f54d1
     cleanup:
-    - /wine/bin/msidb
-    - /wine/bin/wineconsole
-    - /wine/bin/msiexec
-    - /wine/bin/notepad
-    - /wine/bin/regedit
-    - /wine/bin/regsvr32
-    - /wine/bin/wine-preloader
-    - /wine/bin/wine64-preloader
-    - /wine/bin/wineconsole
-    - /wine/bin/winedbg
-    - /wine/bin/winedbg
-    - /wine/bin/winefile
-    - /wine/bin/winemine
-    - /wine/bin/winepath
-    - /wine/share/man
-    - /wine/share/applications/wine.desktop
+      - /wine/bin/msidb
+      - /wine/bin/wineconsole
+      - /wine/bin/msiexec
+      - /wine/bin/notepad
+      - /wine/bin/regedit
+      - /wine/bin/regsvr32
+      - /wine/bin/wine-preloader
+      - /wine/bin/wine64-preloader
+      - /wine/bin/wineconsole
+      - /wine/bin/winedbg
+      - /wine/bin/winedbg
+      - /wine/bin/winefile
+      - /wine/bin/winemine
+      - /wine/bin/winepath
+      - /wine/share/man
+      - /wine/share/applications/wine.desktop
   - name: jagex-launcher-linux
     buildsystem: simple
     build-options:
