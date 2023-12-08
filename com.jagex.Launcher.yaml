@@ -2,7 +2,7 @@
 x-runtime-version: &runtime-version '23.08'
 x-gl-version: &gl-version '1.4'
 x-gl-versions: &gl-versions 23.08;1.4
-x-jagex-launcher-linux-sha: &jagex-launcher-linux-sha '3631e4ee4cb2d21f4cb9b8a2006a1240d9fa31b4'
+x-jagex-launcher-linux-sha: &jagex-launcher-linux-sha 'd3653ddc0f2c119f66220c27d4043ca6766007d2'
 # Flatpak manifest
 app-id: com.jagex.Launcher
 runtime: org.freedesktop.Platform
@@ -75,7 +75,7 @@ modules:
         && unset OLDPWD
     sources:
       - type: git
-        url: https://github.com/TormStorm/jagex-launcher-linux.git
+        url: https://github.com/USA-RedDragon/jagex-launcher-linux.git
         commit: *jagex-launcher-linux-sha
       - type: shell
         commands:

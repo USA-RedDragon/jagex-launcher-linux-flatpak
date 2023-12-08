@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-# renovate: sha: datasource=git-refs depName=jagex-launcher-linux packageName=https://github.com/TormStorm/jagex-launcher-linux branch=main
-JAGEX_LAUNCHER_LINUX_SHA=3631e4ee4cb2d21f4cb9b8a2006a1240d9fa31b4
+# renovate: sha: datasource=git-refs depName=jagex-launcher-linux packageName=https://github.com/USA-RedDragon/jagex-launcher-linux branch=main
+JAGEX_LAUNCHER_LINUX_SHA=d3653ddc0f2c119f66220c27d4043ca6766007d2
 
 __PWD=$(pwd)
 
@@ -12,7 +12,7 @@ echo "Created temporary directory ${TMPDIR}"
 trap "rm -rf ${TMPDIR}" EXIT INT TERM
 
 # If jagex-launcher-linux doesn't exist, clone it
-git clone https://github.com/TormStorm/jagex-launcher-linux.git ${TMPDIR}/jagex-launcher-linux
+git clone https://github.com/USA-RedDragon/jagex-launcher-linux.git ${TMPDIR}/jagex-launcher-linux
 cd ${TMPDIR}/jagex-launcher-linux
 
 git reset --hard HEAD
