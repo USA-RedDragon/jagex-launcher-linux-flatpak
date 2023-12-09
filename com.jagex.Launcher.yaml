@@ -23,8 +23,8 @@ finish-args:
   - --env=WINEARCH=win64
   - --env=WINEDLLOVERRIDES=dxgi=b # Fix launch on Steam Deck by using builtin dxgi
   - --env=GST_PLUGIN_SYSTEM_PATH=/app/lib32/gstreamer-1.0:/app/lib/gstreamer-1.0:/usr/lib/i386-linux-gnu/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0
-  - --env=mesa_glthread=true
-  - --env=MESA_LOADER_DRIVER_OVERRIDE=zink
+  - --env=mesa_glthread=true # https://gitlab.freedesktop.org/mesa/mesa/-/blob/94d827332f39f537debde50125e3f4f9f5fd34c4/src/gallium/frontends/dri/dri_context.c#L221
+  - --env=MESA_LOADER_DRIVER_OVERRIDE=zink # https://docs.mesa3d.org/envvars.html#envvar-MESA_LOADER_DRIVER_OVERRIDE
 sdk-extensions:
   - org.freedesktop.Sdk.Compat.i386
   - org.freedesktop.Sdk.Extension.openjdk11
