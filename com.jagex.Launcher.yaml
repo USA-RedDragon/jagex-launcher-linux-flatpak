@@ -85,7 +85,6 @@ modules:
         export OLDPWD=$PWD \
         && cd /app/Jagex\ Launcher \
         && python ${OLDPWD}/resources/installer.py \
-        && deactivate \
         && cd ${OLDPWD} \
         && unset OLDPWD
     sources:

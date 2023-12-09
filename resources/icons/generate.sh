@@ -25,8 +25,6 @@ mkdir ${TMPDIR}/launcher
 cd ${TMPDIR}/launcher
 python ${JAGEX_LAUNCHER_PATH}/resources/installer.py
 
-deactivate
-
 wrestool -x --output=icon.ico -t14 JagexLauncher.exe
 convert icon.ico icon.png
 
