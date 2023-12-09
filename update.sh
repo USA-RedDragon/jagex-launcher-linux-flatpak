@@ -17,8 +17,8 @@ FREEDESKTOP_SDK_VERSION=$(echo ${FREEDESKTOP_SDK_GIT_VERSION} | cut -d'-' -f3 | 
 GL_VERSION=$(curl -fSsL 'https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/raw/master/elements/flatpak-images/sdk.bst?inline=false' | grep -A 10 'Extension org.freedesktop.Platform.GL:' | grep 'version:' | yq .version)
 GL_VERSIONS="${FREEDESKTOP_SDK_VERSION};${GL_VERSION}"
 
-# renovate: sha: datasource=git-refs depName=jagex-launcher-linux packageName=https://github.com/USA-RedDragon/jagex-launcher-linux branch=main
-JAGEX_LAUNCHER_LINUX_SHA=2af41db52fc465bed75e2998aaa50f6e5a8cd1e7
+# renovate: sha: datasource=git-refs depName=jagex-launcher-linux packageName=https://github.com/TormStorm/jagex-launcher-linux branch=main
+JAGEX_LAUNCHER_LINUX_SHA=6e4b0469d1377811237aad186a1877348c336f59
 
 # renovate: datasource=github-releases versioning=regex depName=GloriousEggroll/wine-ge-custom
 WINE_GE_VERSION=GE-Proton8-24
