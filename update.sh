@@ -21,7 +21,7 @@ GL_VERSIONS="${FREEDESKTOP_SDK_VERSION};${GL_VERSION}"
 JAGEX_LAUNCHER_LINUX_SHA=6e4b0469d1377811237aad186a1877348c336f59
 
 # renovate: datasource=github-releases versioning=regex depName=GloriousEggroll/wine-ge-custom
-WINE_GE_VERSION=GE-Proton8-24
+WINE_GE_VERSION=GE-Proton8-25
 WINE_GE_URL=https://github.com/GloriousEggroll/wine-ge-custom/releases/download/${WINE_GE_VERSION}/wine-lutris-${WINE_GE_VERSION}-x86_64.tar.xz
 WINE_GE_SHA256=$(curl -fSsL "${WINE_GE_URL}" | sha256sum | cut -d' ' -f1)
 
