@@ -140,6 +140,14 @@ modules:
           mkdir -p "${WINEPREFIX}/drive_c/Program Files (x86)/"
           if [ ! -d "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher" ]; then
             cp -r /app/Jagex\ Launcher "${WINEPREFIX}/drive_c/Program Files (x86)/"
+          else
+            # Check .version against the .version we have in /app/Jagex Launcher. If they don't match, copy the new version over.
+            if ! cmp -s /app/Jagex\ Launcher/.version "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/.version"; then
+              # Delete root files and locales folder, then copy over the new version
+              rm -f "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"*
+              rm -rf "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales"
+              cp -r /app/Jagex\ Launcher/* "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"
+            fi
           fi
           /app/wine/bin/wineboot -u
 
