@@ -17,8 +17,10 @@ FREEDESKTOP_SDK_VERSION=$(echo ${FREEDESKTOP_SDK_GIT_VERSION} | cut -d'-' -f3 | 
 GL_VERSION=$(curl -fSsL 'https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/raw/master/elements/flatpak-images/sdk.bst?inline=false' | grep -A 10 'Extension org.freedesktop.Platform.GL:' | grep 'version:' | yq .version)
 GL_VERSIONS="${FREEDESKTOP_SDK_VERSION};${GL_VERSION}"
 
-# renovate: sha: datasource=git-refs depName=jagex-launcher-linux packageName=https://github.com/TormStorm/jagex-launcher-linux branch=main
-JAGEX_LAUNCHER_LINUX_SHA=ed1164314472950d6dfea744e5071b244b70277d
+# renovate: datasource=github-releases depName=USA-RedDragon/jagex-launcher
+JAGEX_LAUNCHER_VERSION=0.29.1
+JAGEX_LAUNCHER_URL=https://github.com/USA-RedDragon/jagex-launcher/releases/download/${JAGEX_LAUNCHER_VERSION}/launcher-${JAGEX_LAUNCHER_VERSION}.tar.gz
+JAGEX_LAUNCHER_SHA256=$(curl -fSsL "${JAGEX_LAUNCHER_URL}" | sha256sum | cut -d' ' -f1)
 
 # renovate: datasource=github-releases versioning=regex depName=GloriousEggroll/wine-ge-custom
 WINE_GE_VERSION=GE-Proton8-25
@@ -59,7 +61,8 @@ RUNELITE_SHA256=$(curl -fSsL "${RUNELITE_URL}" | sha256sum | cut -d' ' -f1)
 yq ".x-runtime-version = \"${FREEDESKTOP_SDK_VERSION}\"" -i com.jagex.Launcher.yaml
 yq ".x-gl-version = \"${GL_VERSION}\"" -i com.jagex.Launcher.yaml
 yq ".x-gl-versions = \"${GL_VERSIONS}\"" -i com.jagex.Launcher.yaml
-yq ".x-jagex-launcher-linux-sha = \"${JAGEX_LAUNCHER_LINUX_SHA}\"" -i com.jagex.Launcher.yaml
+yq "(.modules.[] | select (.name == \"jagex-launcher\") | .sources[0].url) = \"${JAGEX_LAUNCHER_URL}\"" -i com.jagex.Launcher.yaml
+yq "(.modules.[] | select (.name == \"jagex-launcher\") | .sources[0].sha256) = \"${JAGEX_LAUNCHER_SHA256}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"runelite\") | .sources[0].url) = \"${RUNELITE_URL}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"runelite\") | .sources[0].sha256) = \"${RUNELITE_SHA256}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"hdos\") | .sources[0].url) = \"${HDOS_URL}\"" -i com.jagex.Launcher.yaml

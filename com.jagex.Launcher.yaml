@@ -2,7 +2,6 @@
 x-runtime-version: &runtime-version '23.08'
 x-gl-version: &gl-version '1.4'
 x-gl-versions: &gl-versions 23.08;1.4
-x-jagex-launcher-linux-sha: &jagex-launcher-linux-sha 'ed1164314472950d6dfea744e5071b244b70277d'
 # Flatpak manifest
 app-id: com.jagex.Launcher
 runtime: org.freedesktop.Platform
@@ -69,24 +68,16 @@ modules:
       - /wine/bin/winepath
       - /wine/share/man
       - /wine/share/applications/wine.desktop
-  - name: jagex-launcher-linux
+  - name: jagex-launcher
     buildsystem: simple
-    build-options:
-      build-args:
-        # Allow the installer to download the launcher
-        - --share=network
     build-commands:
       - mkdir -p /app/Jagex\ Launcher
-      - |
-        export OLDPWD=$PWD \
-        && cd /app/Jagex\ Launcher \
-        && python ${OLDPWD}/resources/installer.py \
-        && cd ${OLDPWD} \
-        && unset OLDPWD
+      - cp -r * /app/Jagex\ Launcher
     sources:
-      - type: git
-        url: https://github.com/TormStorm/jagex-launcher-linux.git
-        commit: *jagex-launcher-linux-sha
+      - type: archive
+        url: https://github.com/USA-RedDragon/jagex-launcher/releases/download/0.29.1/launcher-0.29.1.tar.gz
+        archive-type: tar-gzip
+        sha256: 9edf4b89d7d5651de2a0cd88f2e7c5988905fa219b07cbb00e922bdd364c51d6
   - name: openjdk
     buildsystem: simple
     build-commands:
