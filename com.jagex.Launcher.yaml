@@ -2,7 +2,7 @@
 x-runtime-version: &runtime-version '23.08'
 x-gl-version: &gl-version '1.4'
 x-gl-versions: &gl-versions 23.08;1.4
-x-jagex-launcher-linux-sha: &jagex-launcher-linux-sha '6e4b0469d1377811237aad186a1877348c336f59'
+x-jagex-launcher-linux-sha: &jagex-launcher-linux-sha 'ed1164314472950d6dfea744e5071b244b70277d'
 # Flatpak manifest
 app-id: com.jagex.Launcher
 runtime: org.freedesktop.Platform
