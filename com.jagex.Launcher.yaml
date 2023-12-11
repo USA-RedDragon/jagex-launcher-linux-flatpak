@@ -75,9 +75,9 @@ modules:
       - cp -r * /app/Jagex\ Launcher
     sources:
       - type: archive
-        url: https://github.com/USA-RedDragon/jagex-launcher/releases/download/0.29.1/launcher-0.29.1.tar.gz
+        url: https://github.com/USA-RedDragon/jagex-launcher/releases/download/0.30.1/launcher-0.30.1.tar.gz
         archive-type: tar-gzip
-        sha256: 9edf4b89d7d5651de2a0cd88f2e7c5988905fa219b07cbb00e922bdd364c51d6
+        sha256: fff8ca2bd72aecd82edfb1202aa718b734c26e1795521b5b4bfcd52b166ed45c
   - name: openjdk
     buildsystem: simple
     build-commands:
