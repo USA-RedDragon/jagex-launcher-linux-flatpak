@@ -63,7 +63,8 @@ jobs:
           cd repo
           git add -A
           git commit --signoff -m "Update com.jagex.Launcher"
-          git push
+          git reset $(git commit-tree HEAD^{tree} -m "Update com.jagex.Launcher")
+          git push -f origin flatpak-repository
         env:
           GIT_AUTHOR_NAME: ${{ steps.import-gpg.outputs.name }}
           GIT_AUTHOR_EMAIL: ${{ steps.import-gpg.outputs.email }}
