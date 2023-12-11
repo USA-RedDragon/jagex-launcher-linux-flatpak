@@ -18,7 +18,7 @@ GL_VERSION=$(curl -fSsL 'https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/ra
 GL_VERSIONS="${FREEDESKTOP_SDK_VERSION};${GL_VERSION}"
 
 # renovate: sha: datasource=git-refs depName=jagex-launcher-linux packageName=https://github.com/TormStorm/jagex-launcher-linux branch=main
-JAGEX_LAUNCHER_LINUX_SHA=6e4b0469d1377811237aad186a1877348c336f59
+JAGEX_LAUNCHER_LINUX_SHA=9f351f9098ef8fafa021dc743ed0363978cc9e05
 
 # renovate: datasource=github-releases versioning=regex depName=GloriousEggroll/wine-ge-custom
 WINE_GE_VERSION=GE-Proton8-25
