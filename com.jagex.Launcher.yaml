@@ -73,6 +73,7 @@ modules:
     build-commands:
       - mkdir -p /app/Jagex\ Launcher
       - cp -r * /app/Jagex\ Launcher
+      - cp -r .* /app/Jagex\ Launcher
     sources:
       - type: archive
         url: https://github.com/USA-RedDragon/jagex-launcher/releases/download/0.30.1/launcher-0.30.1.tar.gz
@@ -140,6 +141,8 @@ modules:
         dest-filename: launch.sh
         contents: |
           #!/bin/sh
+
+          set -exuo pipefail
 
           # Clear any potential jagexcache so we can symlink it to the persisted jagexcache
           rm -rf "${XDG_DATA_HOME}/hdos/jagexcache"
