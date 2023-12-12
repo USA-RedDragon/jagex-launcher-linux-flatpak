@@ -92,7 +92,7 @@ modules:
         cat << __EOF__ > /app/RuneLite/RuneLite.exe
         #!/bin/sh
         set -exuo pipefail
-        /app/jre/bin/java -jar /app/RuneLite/RuneLite.jar
+        exec /app/jre/bin/java -jar /app/RuneLite/RuneLite.jar
         __EOF__
       - chmod +x /app/RuneLite/RuneLite.exe
     sources:
@@ -110,7 +110,7 @@ modules:
         #!/bin/sh
         set -exuo pipefail
         export HOME="\${XDG_DATA_HOME}/hdos"
-        /app/jre/bin/java -Dapp.user.home=\${HOME} -jar /app/HDOS/HDOS.jar
+        exec /app/jre/bin/java -Dapp.user.home=\${HOME} -jar /app/HDOS/HDOS.jar
         __EOF__
       - chmod +x /app/HDOS/HDOS.exe
     sources:
