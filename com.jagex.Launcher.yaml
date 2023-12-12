@@ -147,6 +147,7 @@ modules:
               rm -f "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"*
               rm -rf "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales"
               cp -r /app/Jagex\ Launcher/* "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"
+              cp /app/Jagex\ Launcher/.version "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"
             fi
           fi
           /app/wine/bin/wineboot -u
