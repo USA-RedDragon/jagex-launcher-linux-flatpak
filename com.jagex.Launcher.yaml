@@ -87,7 +87,7 @@ modules:
     build-commands:
       - mkdir -p /app/RuneLite
       - cp -r -v RuneLite.jar /app/RuneLite
-      - echo -e "#!/bin/bash\n/app/jre/bin/java -jar /app/RuneLite/RuneLite.jar" > /app/RuneLite/RuneLite.exe
+      - echo -e "#!/bin/sh\n/app/jre/bin/java -jar /app/RuneLite/RuneLite.jar" > /app/RuneLite/RuneLite.exe
       - chmod +x /app/RuneLite/RuneLite.exe
     sources:
       - type: file
@@ -99,7 +99,7 @@ modules:
     build-commands:
       - mkdir -p /app/HDOS
       - cp -r -v HDOS.jar /app/HDOS
-      - echo -e "#!/bin/bash\nenv _JAVA_OPTIONS=-Duser.home=\${XDG_DATA_HOME}/hdos /app/jre/bin/java -jar /app/HDOS/HDOS.jar" > /app/HDOS/HDOS.exe
+      - echo -e "#!/bin/sh\nenv _JAVA_OPTIONS=-Duser.home=\${XDG_DATA_HOME}/hdos /app/jre/bin/java -jar /app/HDOS/HDOS.jar" > /app/HDOS/HDOS.exe
       - chmod +x /app/HDOS/HDOS.exe
     sources:
       - type: file
@@ -130,7 +130,7 @@ modules:
       - type: inline
         dest-filename: launch.sh
         contents: |
-          #!/bin/bash
+          #!/bin/sh
 
           # Clear any potential jagexcache so we can symlink it to the persisted jagexcache
           rm -rf "${XDG_DATA_HOME}/hdos/jagexcache"
