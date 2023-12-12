@@ -147,7 +147,7 @@ modules:
           set -exuo pipefail
 
           # Clear any potential jagexcache so we can symlink it to the persisted jagexcache
-          rm -rf "${XDG_DATA_HOME}/hdos/jagexcache"
+          rm -rf "${XDG_DATA_HOME}/hdos/jagexcache" || true
           mkdir -p "${XDG_DATA_HOME}/hdos"
           ln -sf ../../jagexcache ${XDG_DATA_HOME}/hdos/jagexcache
 
@@ -158,8 +158,8 @@ modules:
             # Check .version against the .version we have in /app/Jagex Launcher. If they don't match, copy the new version over.
             if [ "$(cat /app/Jagex\ Launcher/.version)" != "$(cat "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/.version")" ]; then
               # Delete root files and locales folder, then copy over the new version
-              rm -f "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"*
-              rm -rf "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales"
+              rm -f "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"* || true
+              rm -rf "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales" || true
               cp -r /app/Jagex\ Launcher/* "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"
               cp /app/Jagex\ Launcher/.version "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"
             fi
