@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Send notification
-        uses: USA-RedDragon/telegram-notification@main
+        uses: USA-RedDragon/telegram-notification@v1.0.0
         with:
           bot-token: ${{ secrets.TG_BOT_TOKEN }}
           chat-id: ${{ secrets.TG_CHAT_ID }}
