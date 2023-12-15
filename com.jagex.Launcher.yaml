@@ -22,6 +22,7 @@ finish-args:
   - --env=WINEARCH=win64
   - --env=WINEDLLOVERRIDES=dxgi=b # Fix launch on Steam Deck by using builtin dxgi
   - --env=GST_PLUGIN_SYSTEM_PATH=/app/lib32/gstreamer-1.0:/app/lib/gstreamer-1.0:/usr/lib/i386-linux-gnu/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0
+  - --talk-name=org.freedesktop.Notifications
 sdk-extensions:
   - org.freedesktop.Sdk.Compat.i386
   - org.freedesktop.Sdk.Extension.openjdk11
@@ -41,6 +42,24 @@ add-extensions:
     download-if: active-gl-driver
     enable-if: active-gl-driver
 modules:
+  - name: libnotify
+    buildsystem: meson
+    config-opts:
+      - -Dman=false
+      - -Dgtk_doc=false
+      - -Ddocbook_docs=false
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+      - /lib/debug
+      - /lib/girepository-1.0
+      - /share/gtk-doc
+      - /share/gir-1.0
+    sources:
+      - type: git
+        url: https://github.com/GNOME/libnotify.git
+        tag: 0.8.3
+        commit: 6083790f9e0f1827147ecd8799c4dced0e86a877
   - name: wine
     buildsystem: simple
     build-commands:
