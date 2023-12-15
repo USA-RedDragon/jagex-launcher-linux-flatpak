@@ -47,7 +47,7 @@ modules:
     config-opts:
       - -Dman=false
       - -Dgtk_doc=false
-      - -Ddocbook_docs=false
+      - -Ddocbook_docs=disabled
     cleanup:
       - /include
       - /lib/pkgconfig
