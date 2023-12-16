@@ -57,7 +57,7 @@ modules:
       - /share/gir-1.0
     sources:
       - type: git
-        url: https://github.com/GNOME/libnotify.git
+        url: https://gitlab.gnome.org/GNOME/libnotify.git
         tag: 0.8.3
   - name: wine
     buildsystem: simple

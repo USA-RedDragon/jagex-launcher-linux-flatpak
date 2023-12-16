@@ -27,7 +27,7 @@ WINE_GE_VERSION=GE-Proton8-25
 WINE_GE_URL=https://github.com/GloriousEggroll/wine-ge-custom/releases/download/${WINE_GE_VERSION}/wine-lutris-${WINE_GE_VERSION}-x86_64.tar.xz
 WINE_GE_SHA256=$(curl -fSsL "${WINE_GE_URL}" | sha256sum | cut -d' ' -f1)
 
-# renovate: datasource=git-tags depName=https://github.com/GNOME/libnotify.git
+# renovate: datasource=git-tags depName=https://gitlab.gnome.org/GNOME/libnotify.git
 LIBNOTIFY_VERSION=0.8.3
 
 HDOS_VERSION=v8
