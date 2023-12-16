@@ -59,7 +59,6 @@ modules:
       - type: git
         url: https://github.com/GNOME/libnotify.git
         tag: 0.8.3
-        commit: 6083790f9e0f1827147ecd8799c4dced0e86a877
   - name: wine
     buildsystem: simple
     build-commands:

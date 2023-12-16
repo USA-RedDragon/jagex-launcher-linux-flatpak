@@ -27,6 +27,9 @@ WINE_GE_VERSION=GE-Proton8-25
 WINE_GE_URL=https://github.com/GloriousEggroll/wine-ge-custom/releases/download/${WINE_GE_VERSION}/wine-lutris-${WINE_GE_VERSION}-x86_64.tar.xz
 WINE_GE_SHA256=$(curl -fSsL "${WINE_GE_URL}" | sha256sum | cut -d' ' -f1)
 
+# renovate: datasource=git-tags depName=https://github.com/GNOME/libnotify.git
+LIBNOTIFY_VERSION=0.8.3
+
 HDOS_VERSION=v8
 
 # We need to check if the next version of HDOS exists since there is no API to get the latest version
@@ -69,3 +72,4 @@ yq "(.modules.[] | select (.name == \"hdos\") | .sources[0].url) = \"${HDOS_URL}
 yq "(.modules.[] | select (.name == \"hdos\") | .sources[0].sha256) = \"${HDOS_SHA256}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"wine\") | .sources[0].url) = \"${WINE_GE_URL}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"wine\") | .sources[0].sha256) = \"${WINE_GE_SHA256}\"" -i com.jagex.Launcher.yaml
+yq "(.modules.[] | select (.name == \"libnotify\") | .sources[0].tag) = \"${LIBNOTIFY_VERSION}\"" -i com.jagex.Launcher.yaml
