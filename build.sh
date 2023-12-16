@@ -45,7 +45,7 @@ if [[ ${DOSIGN} -eq 1 ]]; then
     GPG_ARGS="--gpg-sign=7ADE1CA57A2E2272"
 fi
 
-flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --require-changes --default-branch=stable --user --ccache --force-clean out com.jagex.Launcher.yaml
+flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --require-changes --rebuild-on-sdk-change --default-branch=stable --user --ccache --force-clean out com.jagex.Launcher.yaml
 if [[ ${DOSIGN} -eq 0 ]]; then
     flatpak build-export repo out stable
 fi
