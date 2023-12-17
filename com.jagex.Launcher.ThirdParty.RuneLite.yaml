@@ -7,7 +7,7 @@ separate-locales: false
 appstream-compose: false
 build-options:
   prefix: /app/ThirdParty/RuneLite
-  prepend-path: /app/ThirdParty/RuneLite
+  prepend-path: /app/ThirdParty/RuneLite:/app/ThirdParty/RuneLite/bin
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.openjdk11
 modules:
