@@ -38,16 +38,14 @@ if [[ ${HAS_NVIDIA} -eq 1 ]]; then
         org.freedesktop.Platform.GL32.nvidia-${NVIDIA_VERISON}/x86_64
 fi
 
-REPO_ARGS=""
+REPO_ARGS="--repo ./repo"
 GPG_ARGS=""
 if [[ ${DOSIGN} -eq 1 ]]; then
-    REPO_ARGS="--repo ./repo"
     GPG_ARGS="--gpg-sign=7ADE1CA57A2E2272"
 fi
 
-flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --require-changes --rebuild-on-sdk-change --default-branch=stable --user --ccache --force-clean out com.jagex.Launcher.yaml
-if [[ ${DOSIGN} -eq 0 ]]; then
-    flatpak build-export repo out stable
-fi
-flatpak install --or-update --user -y --noninteractive ./repo com.jagex.Launcher
+flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --require-changes --rebuild-on-sdk-change --install --user --ccache --force-clean out com.jagex.Launcher.yaml
+flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --require-changes --rebuild-on-sdk-change --user --ccache --force-clean out com.jagex.Launcher.ThirdParty.HDOS.yaml
+flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --require-changes --rebuild-on-sdk-change --user --ccache --force-clean out com.jagex.Launcher.ThirdParty.RuneLite.yaml
+flatpak install --or-update --user -y --noninteractive ./repo com.jagex.Launcher.ThirdParty.HDOS com.jagex.Launcher.ThirdParty.RuneLite
 flatpak build-update-repo ${GPG_ARGS} repo --title="Jagex Launcher" --generate-static-deltas --default-branch=stable --prune

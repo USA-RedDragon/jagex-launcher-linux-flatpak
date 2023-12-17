@@ -1,0 +1,64 @@
+# Flatpak manifest
+app-id: com.jagex.Launcher.ThirdParty.HDOS
+runtime: com.jagex.Launcher
+runtime-version: stable
+branch: "1.0.8"
+sdk: org.freedesktop.Sdk//23.08
+build-extension: true
+separate-locales: false
+appstream-compose: false
+build-options:
+  prepend-path: /app/ThirdParty/HDOS
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk11
+modules:
+  - name: openjdk
+    buildsystem: simple
+    build-commands:
+      - bash -c "sed \"s#/app/#${FLATPAK_DEST}/#g\" /usr/lib/sdk/openjdk11/install.sh > ${FLATPAK_DEST}/openjdk11_install.sh"
+      - bash ${FLATPAK_DEST}/openjdk11_install.sh
+      - rm ${FLATPAK_DEST}/openjdk11_install.sh
+  - name: hdos
+    buildsystem: simple
+    build-commands:
+      - cp -r -v HDOS.jar ${FLATPAK_DEST}
+      - |
+        cat << __EOF__ > ${FLATPAK_DEST}/HDOS.exe
+        #!/bin/sh
+        set -exuo pipefail
+        export HOME="\${XDG_DATA_HOME}/hdos"
+        exec ${FLATPAK_DEST}/jre/bin/java -Dapp.user.home=\${HOME} -jar ${FLATPAK_DEST}/HDOS.jar
+        __EOF__
+      - chmod +x ${FLATPAK_DEST}/HDOS.exe
+    sources:
+      - type: file
+        url: https://cdn.hdos.dev/launcher/v8/hdos-launcher.jar
+        dest-filename: HDOS.jar
+        sha256: d3475d791fa8bfa4e3ae7fa9b1c5e86a8e02d1e93f88ff4776582af78ea92fc0
+  - name: bundle-setup
+    buildsystem: simple
+    build-commands:
+      - install -D com.jagex.Launcher.ThirdParty.HDOS.metainfo.xml ${FLATPAK_DEST}/share/metainfo/com.jagex.Launcher.ThirdParty.HDOS.metainfo.xml
+      - appstream-compose --basename=com.jagex.Launcher.ThirdParty.HDOS --prefix=${FLATPAK_DEST} --origin=flatpak com.jagex.Launcher.ThirdParty.HDOS
+    sources:
+      - type: file
+        path: resources/com.jagex.Launcher.ThirdParty.HDOS.metainfo.xml
+  - name: launcher
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 prelaunch.sh ${FLATPAK_DEST}/prelaunch.sh
+    sources:
+      - type: inline
+        dest-filename: prelaunch.sh
+        contents: |
+          #!/bin/sh
+          set -exuo pipefail
+          # Clear any potential jagexcache so we can symlink it to the persisted jagexcache
+          rm -rf "${XDG_DATA_HOME}/hdos/jagexcache" || true
+          mkdir -p "${XDG_DATA_HOME}/hdos"
+          ln -sf ../../jagexcache ${XDG_DATA_HOME}/hdos/jagexcache
+
+          # Check WINEPREFIX for HDOS Launcher_is1 key
+          if ! grep -q "HDOS Launcher_is1" "${WINEPREFIX}/user.reg"; then
+            /app/wine/bin/wine reg.exe add "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\HDOS Launcher_is1" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\ThirdParty\\HDOS" /f
+          fi

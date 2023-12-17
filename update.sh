@@ -30,19 +30,18 @@ WINE_GE_SHA256=$(curl -fSsL "${WINE_GE_URL}" | sha256sum | cut -d' ' -f1)
 # renovate: datasource=git-tags depName=https://gitlab.gnome.org/GNOME/libnotify.git
 LIBNOTIFY_VERSION=0.8.3
 
-HDOS_VERSION=v8
-
 # We need to check if the next version of HDOS exists since there is no API to get the latest version
-NEXT_HDOS_VERSION=v$(echo "${HDOS_VERSION}" | sed 's/v//g' | awk -F. -v OFS=. '{$NF++;print}')
-HDOS_URL=https://cdn.hdos.dev/launcher/${NEXT_HDOS_VERSION}/hdos-launcher.jar
-if curl -fSsL "${HDOS_URL}" > /dev/null; then
-    echo "Found Newer HDOS JAR at ${HDOS_URL}"
-    HDOS_VERSION="${NEXT_HDOS_VERSION}"
-    # Self-edit this script to update the HDOS_VERSION variable
-    sed -i "s/HDOS_VERSION=v.*/HDOS_VERSION=${HDOS_VERSION}/g" update.sh
-fi
-HDOS_URL=https://cdn.hdos.dev/launcher/${HDOS_VERSION}/hdos-launcher.jar
-HDOS_SHA256=$(curl -fSsL "${HDOS_URL}" | sha256sum | cut -d' ' -f1)
+HDOS_URL=https://cdn.hdos.dev/launcher/latest/hdos-launcher.jar
+TEMPDIR=$(mktemp -d)
+curl -fSsL "${HDOS_URL}" -o ${TEMPDIR}/hdos.jar
+HDOS_SHA256=$(cat ${TEMPDIR}/hdos.jar | sha256sum | cut -d' ' -f1)
+cd ${TEMPDIR}
+unzip ${TEMPDIR}/hdos.jar META-INF/MANIFEST.MF
+HDOS_VERSION=$(cat META-INF/MANIFEST.MF | grep Build-Revision | awk '{ print $2 }' | tr -d '\r')
+cd -
+rm -rf ${TEMPDIR}
+HDOS_SHORT_VERSION=$(echo ${HDOS_VERSION} | awk -F. '{ print "v"$3 }')
+HDOS_URL=https://cdn.hdos.dev/launcher/${HDOS_SHORT_VERSION}/hdos-launcher.jar
 
 # renovate: datasource=github-releases depName=runelite/launcher
 RUNELITE_LAUNCHER_VERSION=2.6.12
@@ -53,7 +52,7 @@ curVersion="${RUNELITE_LAUNCHER_VERSION}"
 # We need to decrement the patch version until either a JAR is found or until "${RUNELITE_LAUNCHER_MAJOR_MINOR_VERSION}.-1" is reached
 while [[ "${curVersion}" != "${RUNELITE_LAUNCHER_MAJOR_MINOR_VERSION}.-1" ]]; do
     RUNELITE_URL="https://github.com/runelite/launcher/releases/download/${curVersion}/RuneLite.jar"
-    if curl -fSsL "${RUNELITE_URL}" > /dev/null; then
+    if curl -fSsL "${RUNELITE_URL}" > /dev/null 2>&1; then
         break
     fi
     curVersion=$(semver_decrement_patch "${curVersion}")
@@ -62,14 +61,19 @@ done
 RUNELITE_SHA256=$(curl -fSsL "${RUNELITE_URL}" | sha256sum | cut -d' ' -f1)
 
 yq ".x-runtime-version = \"${FREEDESKTOP_SDK_VERSION}\"" -i com.jagex.Launcher.yaml
+yq ".sdk = \"org.freedesktop.Sdk//${FREEDESKTOP_SDK_VERSION}\"" -i com.jagex.Launcher.ThirdParty.HDOS.yaml
+yq ".sdk = \"org.freedesktop.Sdk//${FREEDESKTOP_SDK_VERSION}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
 yq ".x-gl-version = \"${GL_VERSION}\"" -i com.jagex.Launcher.yaml
 yq ".x-gl-versions = \"${GL_VERSIONS}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"jagex-launcher\") | .sources[0].url) = \"${JAGEX_LAUNCHER_URL}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"jagex-launcher\") | .sources[0].sha256) = \"${JAGEX_LAUNCHER_SHA256}\"" -i com.jagex.Launcher.yaml
-yq "(.modules.[] | select (.name == \"runelite\") | .sources[0].url) = \"${RUNELITE_URL}\"" -i com.jagex.Launcher.yaml
-yq "(.modules.[] | select (.name == \"runelite\") | .sources[0].sha256) = \"${RUNELITE_SHA256}\"" -i com.jagex.Launcher.yaml
-yq "(.modules.[] | select (.name == \"hdos\") | .sources[0].url) = \"${HDOS_URL}\"" -i com.jagex.Launcher.yaml
-yq "(.modules.[] | select (.name == \"hdos\") | .sources[0].sha256) = \"${HDOS_SHA256}\"" -i com.jagex.Launcher.yaml
+yq ".branch = \"${RUNELITE_LAUNCHER_VERSION}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
+yq "(.modules.[] | select (.name == \"runelite\") | .sources[0].url) = \"${RUNELITE_URL}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
+yq "(.modules.[] | select (.name == \"runelite\") | .sources[0].sha256) = \"${RUNELITE_SHA256}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
+yq ".branch = \"${HDOS_VERSION}\"" -i com.jagex.Launcher.ThirdParty.HDOS.yaml
+yq "(.modules.[] | select (.name == \"hdos\") | .sources[0].url) = \"${HDOS_URL}\"" -i com.jagex.Launcher.ThirdParty.HDOS.yaml
+yq "(.modules.[] | select (.name == \"hdos\") | .sources[0].sha256) = \"${HDOS_SHA256}\"" -i com.jagex.Launcher.ThirdParty.HDOS.yaml
+yq ".branch = \"${JAGEX_LAUNCHER_VERSION}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"wine\") | .sources[0].url) = \"${WINE_GE_URL}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"wine\") | .sources[0].sha256) = \"${WINE_GE_SHA256}\"" -i com.jagex.Launcher.yaml
-yq "(.modules.[] | select (.name == \"libnotify\") | .sources[0].tag) = \"${LIBNOTIFY_VERSION}\"" -i com.jagex.Launcher.yaml
+yq "(.modules.[] | select (.name == \"libnotify\") | .sources[0].tag) = \"${LIBNOTIFY_VERSION}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
