@@ -2,7 +2,7 @@
 .flatpak-builder
 out/
 export/
-resources/icons/*.png
+resources/icons/*/*.png
 *.flatpak
 repo/
 bak/
