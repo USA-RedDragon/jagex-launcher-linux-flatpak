@@ -1,4 +1,4 @@
-app-id: com.jagex.Launcher.ThirdParty.RuneLite
+id: com.jagex.Launcher.ThirdParty.RuneLite
 runtime: com.jagex.Launcher
 runtime-version: stable
 sdk: org.freedesktop.Sdk//23.08
