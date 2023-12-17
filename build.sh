@@ -19,7 +19,9 @@ if [[ -f /proc/driver/nvidia/version ]]; then
 fi
 
 # If icons doesn't exist, generate them
-./resources/icons/generate.sh
+if [[ ! -f resources/icons/256x256.png ]]; then
+    ./resources/icons/generate.sh
+fi
 
 flatpak install --user -y --noninteractive flathub \
     org.freedesktop.Platform//${FREEDESKTOP_SDK_VERSION} \

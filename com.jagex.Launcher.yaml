@@ -165,17 +165,17 @@ modules:
 
           exec /app/wine/bin/wine "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
       - type: file
-        path: resources/icons/jagex-launcher/16x16.png
+        path: resources/icons/16x16.png
       - type: file
-        path: resources/icons/jagex-launcher/32x32.png
+        path: resources/icons/32x32.png
       - type: file
-        path: resources/icons/jagex-launcher/48x48.png
+        path: resources/icons/48x48.png
       - type: file
-        path: resources/icons/jagex-launcher/64x64.png
+        path: resources/icons/64x64.png
       - type: file
-        path: resources/icons/jagex-launcher/128x128.png
+        path: resources/icons/128x128.png
       - type: file
-        path: resources/icons/jagex-launcher/256x256.png
+        path: resources/icons/256x256.png
       - type: file
         path: resources/com.jagex.Launcher.desktop
       - type: file
