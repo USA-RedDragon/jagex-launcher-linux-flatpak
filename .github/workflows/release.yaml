@@ -7,7 +7,9 @@ on:
     tags:
       - v*
     paths:
-      - 'com.jagex.Launcher.yaml'
+      - 'com.jagex.Launcher*.yaml'
+      - '**/*.xml'
+      - '**/*.desktop'
       - 'resources/**'
       - 'build.sh'
       - '.github/workflows/release.yaml'
