@@ -70,13 +70,10 @@ yq ".x-gl-version = \"${GL_VERSION}\"" -i com.jagex.Launcher.yaml
 yq ".x-gl-versions = \"${GL_VERSIONS}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"jagex-launcher\") | .sources[0].url) = \"${JAGEX_LAUNCHER_URL}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"jagex-launcher\") | .sources[0].sha256) = \"${JAGEX_LAUNCHER_SHA256}\"" -i com.jagex.Launcher.yaml
-yq ".branch = \"${RUNELITE_LAUNCHER_VERSION}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
 yq "(.modules.[] | select (.name == \"runelite\") | .sources[0].url) = \"${RUNELITE_URL}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
 yq "(.modules.[] | select (.name == \"runelite\") | .sources[0].sha256) = \"${RUNELITE_SHA256}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
-yq ".branch = \"${HDOS_VERSION}\"" -i com.jagex.Launcher.ThirdParty.HDOS.yaml
 yq "(.modules.[] | select (.name == \"hdos\") | .sources[0].url) = \"${HDOS_URL}\"" -i com.jagex.Launcher.ThirdParty.HDOS.yaml
 yq "(.modules.[] | select (.name == \"hdos\") | .sources[0].sha256) = \"${HDOS_SHA256}\"" -i com.jagex.Launcher.ThirdParty.HDOS.yaml
-yq ".branch = \"${JAGEX_LAUNCHER_VERSION}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"wine\") | .sources[0].url) = \"${WINE_GE_URL}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"wine\") | .sources[0].sha256) = \"${WINE_GE_SHA256}\"" -i com.jagex.Launcher.yaml
 yq "(.modules.[] | select (.name == \"libnotify\") | .sources[0].tag) = \"${LIBNOTIFY_VERSION}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
