@@ -6,6 +6,7 @@ x-gl-versions: &gl-versions 23.08;1.4
 app-id: com.jagex.Launcher
 runtime: org.freedesktop.Platform
 runtime-version: *runtime-version
+branch: 0.30.1
 sdk: org.freedesktop.Sdk
 command: /app/bin/launch.sh
 finish-args:
@@ -15,9 +16,9 @@ finish-args:
   - --socket=x11
   - --device=dri
   - --share=network
-  - --socket=pulseaudio
   - --persist=.runelite
   - --persist=jagexcache
+  - --socket=pulseaudio
   - --env=WINEPREFIX=/var/data/wine
   - --env=WINEARCH=win64
   - --env=WINEDLLOVERRIDES=dxgi=b # Fix launch on Steam Deck by using builtin dxgi
@@ -25,45 +26,34 @@ finish-args:
   - --talk-name=org.freedesktop.Notifications
 sdk-extensions:
   - org.freedesktop.Sdk.Compat.i386
-  - org.freedesktop.Sdk.Extension.openjdk11
 add-extensions:
   org.freedesktop.Platform.Compat.i386:
     directory: lib/i386-linux-gnu
     version: *runtime-version
+    no-autodownload: false
   org.freedesktop.Platform.GL32:
     directory: lib/i386-linux-gnu/GL
     version: *gl-version
     versions: *gl-versions
     subdirectories: true
-    no-autodownload: true
+    no-autodownload: false
     autodelete: false
     add-ld-path: lib
     merge-dirs: vulkan/icd.d;glvnd/egl_vendor.d;OpenCL/vendors;lib/dri;lib/d3d;vulkan/explicit_layer.d;vulkan/implicit_layer.d
     download-if: active-gl-driver
     enable-if: active-gl-driver
+  com.jagex.Launcher.ThirdParty:
+    directory: ThirdParty
+    subdirectories: true
+    no-autodownload: true
+    autodelete: true
+    add-ld-path: lib
 modules:
-  - name: libnotify
-    buildsystem: meson
-    config-opts:
-      - -Dman=false
-      - -Dgtk_doc=false
-      - -Ddocbook_docs=disabled
-    cleanup:
-      - /include
-      - /lib/pkgconfig
-      - /lib/debug
-      - /lib/girepository-1.0
-      - /share/gtk-doc
-      - /share/gir-1.0
-    sources:
-      - type: git
-        url: https://gitlab.gnome.org/GNOME/libnotify.git
-        tag: 0.8.3
   - name: wine
     buildsystem: simple
     build-commands:
-      - mkdir -p /app/wine
-      - cp -r * /app/wine
+      - mkdir -p ${FLATPAK_DEST}/wine
+      - cp -r * ${FLATPAK_DEST}/wine
     sources:
       - type: archive
         url: https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-25/wine-lutris-GE-Proton8-25-x86_64.tar.xz
@@ -89,9 +79,9 @@ modules:
   - name: jagex-launcher
     buildsystem: simple
     build-commands:
-      - mkdir -p /app/Jagex\ Launcher
-      - cp -r * /app/Jagex\ Launcher
-      - cp -r .* /app/Jagex\ Launcher
+      - mkdir -p ${FLATPAK_DEST}/Jagex\ Launcher
+      - cp -r * ${FLATPAK_DEST}/Jagex\ Launcher
+      - cp -r .* ${FLATPAK_DEST}/Jagex\ Launcher
       # To allow separate locales
       # https://searchfox.org/mozilla-central/rev/8a4f55bc09ffc5c25dcb4586c51ae4a9fee77b4c/taskcluster/docker/firefox-flatpak/runme.sh#131-133
       - |
@@ -107,60 +97,23 @@ modules:
         url: https://github.com/USA-RedDragon/jagex-launcher/releases/download/0.30.1/launcher-0.30.1.tar.gz
         archive-type: tar-gzip
         sha256: fff8ca2bd72aecd82edfb1202aa718b734c26e1795521b5b4bfcd52b166ed45c
-  - name: openjdk
-    buildsystem: simple
-    build-commands:
-      - /usr/lib/sdk/openjdk11/install.sh
-  - name: runelite
-    buildsystem: simple
-    build-commands:
-      - mkdir -p /app/RuneLite
-      - cp -r -v RuneLite.jar /app/RuneLite
-      - |
-        cat << __EOF__ > /app/RuneLite/RuneLite.exe
-        #!/bin/sh
-        set -exuo pipefail
-        exec /app/jre/bin/java -jar /app/RuneLite/RuneLite.jar
-        __EOF__
-      - chmod +x /app/RuneLite/RuneLite.exe
-    sources:
-      - type: file
-        url: https://github.com/runelite/launcher/releases/download/2.6.10/RuneLite.jar
-        dest-filename: RuneLite.jar
-        sha256: b73561c714ad58984669f0b909731d4cc4c6bacdbf07d227006243d1b566138b
-  - name: hdos
-    buildsystem: simple
-    build-commands:
-      - mkdir -p /app/HDOS
-      - cp -r -v HDOS.jar /app/HDOS
-      - |
-        cat << __EOF__ > /app/HDOS/HDOS.exe
-        #!/bin/sh
-        set -exuo pipefail
-        export HOME="\${XDG_DATA_HOME}/hdos"
-        exec /app/jre/bin/java -Dapp.user.home=\${HOME} -jar /app/HDOS/HDOS.jar
-        __EOF__
-      - chmod +x /app/HDOS/HDOS.exe
-    sources:
-      - type: file
-        url: https://cdn.hdos.dev/launcher/v8/hdos-launcher.jar
-        dest-filename: HDOS.jar
-        sha256: d3475d791fa8bfa4e3ae7fa9b1c5e86a8e02d1e93f88ff4776582af78ea92fc0
   - name: bundle-setup
     buildsystem: simple
+    post-install:
+      - install -d /app/ThirdParty
     build-commands:
-      - mkdir -p /app/lib/i386-linux-gnu/GL
-      - mkdir -p /app/lib/debug/lib/i386-linux-gnu
-      - install -Dm755 launch.sh /app/bin/launch.sh
-      - install -Dm644 ld.so.conf /app/etc/ld.so.conf
-      - install -Dm644 16x16.png /app/share/icons/hicolor/16x16/apps/com.jagex.Launcher.png
-      - install -Dm644 32x32.png /app/share/icons/hicolor/32x32/apps/com.jagex.Launcher.png
-      - install -Dm644 48x48.png /app/share/icons/hicolor/48x48/apps/com.jagex.Launcher.png
-      - install -Dm644 64x64.png /app/share/icons/hicolor/64x64/apps/com.jagex.Launcher.png
-      - install -Dm644 128x128.png /app/share/icons/hicolor/128x128/apps/com.jagex.Launcher.png
-      - install -Dm644 256x256.png /app/share/icons/hicolor/256x256/apps/com.jagex.Launcher.png
-      - install -D com.jagex.Launcher.desktop /app/share/applications/com.jagex.Launcher.desktop
-      - install -D com.jagex.Launcher.metainfo.xml /app/share/metainfo/com.jagex.Launcher.metainfo.xml
+      - mkdir -p ${FLATPAK_DEST}/lib/i386-linux-gnu/GL
+      - mkdir -p ${FLATPAK_DEST}/lib/debug/lib/i386-linux-gnu
+      - install -Dm755 launch.sh ${FLATPAK_DEST}/bin/launch.sh
+      - install -Dm644 ld.so.conf ${FLATPAK_DEST}/etc/ld.so.conf
+      - install -Dm644 16x16.png ${FLATPAK_DEST}/share/icons/hicolor/16x16/apps/com.jagex.Launcher.png
+      - install -Dm644 32x32.png ${FLATPAK_DEST}/share/icons/hicolor/32x32/apps/com.jagex.Launcher.png
+      - install -Dm644 48x48.png ${FLATPAK_DEST}/share/icons/hicolor/48x48/apps/com.jagex.Launcher.png
+      - install -Dm644 64x64.png ${FLATPAK_DEST}/share/icons/hicolor/64x64/apps/com.jagex.Launcher.png
+      - install -Dm644 128x128.png ${FLATPAK_DEST}/share/icons/hicolor/128x128/apps/com.jagex.Launcher.png
+      - install -Dm644 256x256.png ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps/com.jagex.Launcher.png
+      - install -D com.jagex.Launcher.desktop ${FLATPAK_DEST}/share/applications/com.jagex.Launcher.desktop
+      - install -D com.jagex.Launcher.metainfo.xml ${FLATPAK_DEST}/share/metainfo/com.jagex.Launcher.metainfo.xml
     sources:
       - type: inline
         dest-filename: ld.so.conf
@@ -173,11 +126,6 @@ modules:
           #!/bin/sh
 
           set -exuo pipefail
-
-          # Clear any potential jagexcache so we can symlink it to the persisted jagexcache
-          rm -rf "${XDG_DATA_HOME}/hdos/jagexcache" || true
-          mkdir -p "${XDG_DATA_HOME}/hdos"
-          ln -sf ../../jagexcache ${XDG_DATA_HOME}/hdos/jagexcache
 
           mkdir -p "${WINEPREFIX}/drive_c/Program Files (x86)/"
           if [ ! -d "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher" ]; then
@@ -194,15 +142,22 @@ modules:
           fi
           /app/wine/bin/wineboot -u
 
-          # Check WINEPREFIX for RuneLite Launcher_is1 key
-          if ! grep -q "RuneLite Launcher_is1" "${WINEPREFIX}/drive_c/user.reg"; then
-            /app/wine/bin/wine reg.exe add "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\RuneLite Launcher_is1" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\RuneLite" /f
+          if [ ! -d "/app/ThirdParty/RuneLite" ]; then
+            # Check WINEPREFIX for RuneLite Launcher_is1 key
+            if grep -q "RuneLite Launcher_is1" "${WINEPREFIX}/user.reg"; then
+              /app/wine/bin/wine reg.exe delete "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\RuneLite Launcher_is1" /f
+            fi
           fi
 
-          # Check WINEPREFIX for HDOS Launcher_is1 key
-          if ! grep -q "HDOS Launcher_is1" "${WINEPREFIX}/drive_c/user.reg"; then
-            /app/wine/bin/wine reg.exe add "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\HDOS Launcher_is1" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\HDOS" /f
+          if [ ! -d "/app/ThirdParty/HDOS" ]; then
+            # Check WINEPREFIX for HDOS Launcher_is1 key
+            if grep -q "HDOS Launcher_is1" "${WINEPREFIX}/user.reg"; then
+              /app/wine/bin/wine reg.exe delete "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\HDOS Launcher_is1" /f
+            fi
           fi
+
+          . /app/ThirdParty/HDOS/prelaunch.sh || true
+          . /app/ThirdParty/RuneLite/prelaunch.sh || true
 
           exec /app/wine/bin/wine "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
       - type: file
