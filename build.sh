@@ -44,8 +44,8 @@ if [[ ${DOSIGN} -eq 1 ]]; then
     GPG_ARGS="--gpg-sign=7ADE1CA57A2E2272"
 fi
 
-flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --require-changes --rebuild-on-sdk-change --install --user --ccache --force-clean out com.jagex.Launcher.yaml
-flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --require-changes --rebuild-on-sdk-change --user --ccache --force-clean out com.jagex.Launcher.ThirdParty.HDOS.yaml
-flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --require-changes --rebuild-on-sdk-change --user --ccache --force-clean out com.jagex.Launcher.ThirdParty.RuneLite.yaml
+flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --default-branch=stable --require-changes --rebuild-on-sdk-change --install --user --ccache --force-clean out com.jagex.Launcher.yaml
+flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --default-branch=stable --require-changes --rebuild-on-sdk-change --user --ccache --force-clean out com.jagex.Launcher.ThirdParty.HDOS.yaml
+flatpak-builder ${REPO_ARGS} ${GPG_ARGS} --default-branch=stable --require-changes --rebuild-on-sdk-change --user --ccache --force-clean out com.jagex.Launcher.ThirdParty.RuneLite.yaml
 flatpak install --or-update --user -y --noninteractive ./repo com.jagex.Launcher.ThirdParty.HDOS com.jagex.Launcher.ThirdParty.RuneLite
 flatpak build-update-repo ${GPG_ARGS} repo --title="Jagex Launcher" --generate-static-deltas --default-branch=stable --prune
