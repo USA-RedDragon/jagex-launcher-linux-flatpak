@@ -155,8 +155,13 @@ modules:
             fi
           fi
 
-          . /app/ThirdParty/HDOS/prelaunch.sh || true
-          . /app/ThirdParty/RuneLite/prelaunch.sh || true
+          if [ -f /app/ThirdParty/HDOS/prelaunch.sh ]; then
+            . /app/ThirdParty/HDOS/prelaunch.sh
+          fi
+
+          if [ -f /app/ThirdParty/RuneLite/prelaunch.sh ]; then
+            . /app/ThirdParty/RuneLite/prelaunch.sh
+          fi
 
           exec /app/wine/bin/wine "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
       - type: file
