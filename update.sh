@@ -61,9 +61,34 @@ RUNELITE_LAUNCHER_VERSION=$curVersion
 
 RUNELITE_SHA256=$(curl -fSsL "${RUNELITE_URL}" | sha256sum | cut -d' ' -f1)
 
+if ! xmlstarlet sel -Q -t -c "//component/releases/release[@version='${JAGEX_LAUNCHER_VERSION}']" ./resources/com.jagex.Launcher.metainfo.xml > /dev/null 2>&1;
+then
+    xmlstarlet ed -P -L -s '//component/releases' -t elem -n TMP -v '' \
+        -i //TMP -t attr -n version -v "${JAGEX_LAUNCHER_VERSION}" \
+        -i //TMP -t attr -n date -v "$(date '+%F')" \
+        -r //TMP -v release \
+        ./resources/com.jagex.Launcher.metainfo.xml
+fi
+
+if ! xmlstarlet sel -Q -t -c "//component/releases/release[@version='${RUNELITE_LAUNCHER_VERSION}']" ./resources/com.jagex.Launcher.ThirdParty.RuneLite.metainfo.xml;
+then
+    xmlstarlet ed -P -L -s '//component/releases' -t elem -n TMP -v '' \
+        -i //TMP -t attr -n version -v "${RUNELITE_LAUNCHER_VERSION}" \
+        -i //TMP -t attr -n date -v "$(date '+%F')" \
+        -r //TMP -v release \
+        ./resources/com.jagex.Launcher.ThirdParty.RuneLite.metainfo.xml
+fi
+
+if ! xmlstarlet sel -Q -t -c "//component/releases/release[@version='${HDOS_VERSION}']" ./resources/com.jagex.Launcher.ThirdParty.HDOS.metainfo.xml;
+then
+    xmlstarlet ed -P -L -s '//component/releases' -t elem -n TMP -v '' \
+        -i //TMP -t attr -n version -v "${HDOS_VERSION}" \
+        -i //TMP -t attr -n date -v "$(date '+%F')" \
+        -r //TMP -v release \
+        ./resources/com.jagex.Launcher.ThirdParty.HDOS.metainfo.xml
+fi
+
 yq ".x-runtime-version = \"${FREEDESKTOP_SDK_VERSION}\"" -i com.jagex.Launcher.yaml
-yq ".runtime-version = \"${JAGEX_LAUNCHER_VERSION}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
-yq ".runtime-version = \"${JAGEX_LAUNCHER_VERSION}\"" -i com.jagex.Launcher.ThirdParty.HDOS.yaml
 yq ".sdk = \"org.freedesktop.Sdk//${FREEDESKTOP_SDK_VERSION}\"" -i com.jagex.Launcher.ThirdParty.HDOS.yaml
 yq ".sdk = \"org.freedesktop.Sdk//${FREEDESKTOP_SDK_VERSION}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
 yq ".x-gl-version = \"${GL_VERSION}\"" -i com.jagex.Launcher.yaml
