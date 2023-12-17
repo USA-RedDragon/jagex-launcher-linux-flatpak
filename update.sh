@@ -57,10 +57,13 @@ while [[ "${curVersion}" != "${RUNELITE_LAUNCHER_MAJOR_MINOR_VERSION}.-1" ]]; do
     fi
     curVersion=$(semver_decrement_patch "${curVersion}")
 done
+RUNELITE_LAUNCHER_VERSION=$curVersion
 
 RUNELITE_SHA256=$(curl -fSsL "${RUNELITE_URL}" | sha256sum | cut -d' ' -f1)
 
 yq ".x-runtime-version = \"${FREEDESKTOP_SDK_VERSION}\"" -i com.jagex.Launcher.yaml
+yq ".runtime-version = \"${JAGEX_LAUNCHER_VERSION}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
+yq ".runtime-version = \"${JAGEX_LAUNCHER_VERSION}\"" -i com.jagex.Launcher.ThirdParty.HDOS.yaml
 yq ".sdk = \"org.freedesktop.Sdk//${FREEDESKTOP_SDK_VERSION}\"" -i com.jagex.Launcher.ThirdParty.HDOS.yaml
 yq ".sdk = \"org.freedesktop.Sdk//${FREEDESKTOP_SDK_VERSION}\"" -i com.jagex.Launcher.ThirdParty.RuneLite.yaml
 yq ".x-gl-version = \"${GL_VERSION}\"" -i com.jagex.Launcher.yaml
