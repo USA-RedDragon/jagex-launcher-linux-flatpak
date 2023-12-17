@@ -4,7 +4,7 @@
 
     <name>Jagex Launcher</name>
     <developer_name>Jagex</developer_name>
-    <summary>The Jagex Launcher is the new home for Jagex&apos;s PC games library. Discover, install, and play games from the RuneScape universe and beyond.</summary>
+    <summary>The Jagex Launcher is the new home for Jagex's PC games library. Discover, install, and play games from the RuneScape universe and beyond.</summary>
 
     <categories>
         <category>Game</category>
@@ -20,12 +20,17 @@
     </supports>
 
     <description>
-        <p>The Jagex Launcher is the new home for Jagex&apos;s PC games library. Discover, install, and play games from the RuneScape universe and beyond.</p>
+        <p>The Jagex Launcher is the new home for Jagex's PC games library. Discover, install, and play games from the RuneScape universe and beyond.</p>
     </description>
 
     <launchable type="desktop-id">com.jagex.Launcher.desktop</launchable>
 
     <url type="homepage">https://www.jagex.com/en-GB/launcher</url>
+
+    <releases>
+        <release version="0.29.1" date="2023-11-26"/>
+        <release version="0.30.1" date="2023-12-10"/>
+    </releases>
 
     <screenshots>
         <screenshot type="default">https://jagexlauncher.flatpak.mcswain.dev/screenshot.png</screenshot>
