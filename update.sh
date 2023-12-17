@@ -45,7 +45,7 @@ HDOS_URL=https://cdn.hdos.dev/launcher/${HDOS_VERSION}/hdos-launcher.jar
 HDOS_SHA256=$(curl -fSsL "${HDOS_URL}" | sha256sum | cut -d' ' -f1)
 
 # renovate: datasource=github-releases depName=runelite/launcher
-RUNELITE_LAUNCHER_VERSION=2.6.11
+RUNELITE_LAUNCHER_VERSION=2.6.12
 RUNELITE_LAUNCHER_MAJOR_MINOR_VERSION=$(echo ${RUNELITE_LAUNCHER_VERSION} | cut -d'-' -f3 | cut -d'.' -f1-2)
 
 # Runelite doesn't always update the JAR, so we need to search previous releases for the latest JAR
