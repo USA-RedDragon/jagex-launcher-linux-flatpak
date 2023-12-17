@@ -44,7 +44,7 @@ modules:
       - type: file
         path: resources/com.jagex.Launcher.ThirdParty.HDOS.metainfo.xml
       - type: file
-        path: resources/icons/runelite/512x512.png
+        path: resources/icons/hdos/512x512.png
   - name: launcher
     buildsystem: simple
     build-commands:
