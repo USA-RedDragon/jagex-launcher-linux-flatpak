@@ -1,5 +1,5 @@
 # Flatpak manifest
-app-id: com.jagex.Launcher.ThirdParty.HDOS
+id: com.jagex.Launcher.ThirdParty.HDOS
 runtime: com.jagex.Launcher
 runtime-version: stable
 sdk: org.freedesktop.Sdk//23.08
