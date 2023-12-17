@@ -28,8 +28,8 @@
     <url type="homepage">https://www.jagex.com/en-GB/launcher</url>
 
     <releases>
-        <release version="0.29.1" date="2023-11-26"/>
         <release version="0.30.1" date="2023-12-10"/>
+        <release version="0.29.1" date="2023-11-26"/>
     </releases>
 
     <screenshots>
