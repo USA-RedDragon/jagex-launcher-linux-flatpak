@@ -26,7 +26,7 @@ modules:
         #!/bin/sh
         set -exuo pipefail
         export HOME="\${XDG_DATA_HOME}/hdos"
-        exec ${FLATPAK_DEST}/jre/bin/java -Dapp.user.home=\${HOME} -jar ${FLATPAK_DEST}/HDOS.jar
+        exec ${FLATPAK_DEST}/jre/bin/java -Dapp.user.home=\${HOME} -jar ${FLATPAK_DEST}/HDOS.jar "\$@"
         __EOF__
       - chmod +x ${FLATPAK_DEST}/HDOS.exe
     sources:

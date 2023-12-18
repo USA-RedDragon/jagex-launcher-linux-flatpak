@@ -42,7 +42,7 @@ modules:
         cat << __EOF__ > ${FLATPAK_DEST}/RuneLite.exe
         #!/bin/sh
         set -exuo pipefail
-        exec ${FLATPAK_DEST}/jre/bin/java -jar ${FLATPAK_DEST}/RuneLite.jar
+        exec ${FLATPAK_DEST}/jre/bin/java -jar ${FLATPAK_DEST}/RuneLite.jar "\$@"
         __EOF__
       - chmod +x ${FLATPAK_DEST}/RuneLite.exe
     sources:
