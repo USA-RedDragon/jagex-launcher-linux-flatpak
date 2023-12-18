@@ -46,7 +46,6 @@ add-extensions:
     subdirectories: true
     no-autodownload: true
     autodelete: true
-    add-ld-path: lib
 modules:
   - name: wine
     buildsystem: simple
