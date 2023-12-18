@@ -6,8 +6,6 @@ sdk: org.freedesktop.Sdk//23.08
 build-extension: true
 separate-locales: false
 appstream-compose: false
-build-options:
-  prepend-path: /app/ThirdParty/HDOS
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.openjdk11
 modules:
