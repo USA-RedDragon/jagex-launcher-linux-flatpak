@@ -7,7 +7,6 @@ separate-locales: false
 appstream-compose: false
 build-options:
   prefix: /app/ThirdParty/RuneLite
-  prepend-path: /app/ThirdParty/RuneLite:/app/ThirdParty/RuneLite/bin
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.openjdk11
 modules:
@@ -42,6 +41,8 @@ modules:
         cat << __EOF__ > ${FLATPAK_DEST}/RuneLite.exe
         #!/bin/sh
         set -exuo pipefail
+        export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${FLATPAK_DEST}/lib"
+        export PATH="${PATH}:${FLATPAK_DEST}/bin"
         exec ${FLATPAK_DEST}/jre/bin/java -jar ${FLATPAK_DEST}/RuneLite.jar "\$@"
         __EOF__
       - chmod +x ${FLATPAK_DEST}/RuneLite.exe
