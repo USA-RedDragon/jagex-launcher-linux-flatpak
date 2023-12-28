@@ -80,16 +80,6 @@ modules:
       - mkdir -p ${FLATPAK_DEST}/Jagex\ Launcher
       - cp -r * ${FLATPAK_DEST}/Jagex\ Launcher
       - cp -r .* ${FLATPAK_DEST}/Jagex\ Launcher
-      # To allow separate locales
-      # https://searchfox.org/mozilla-central/rev/8a4f55bc09ffc5c25dcb4586c51ae4a9fee77b4c/taskcluster/docker/firefox-flatpak/runme.sh#131-133
-      - |
-        set -euo pipefail
-        for lang in "${FLATPAK_DEST}/Jagex Launcher/locales/"*.pak
-        do
-          locale=$(basename -s .pak "${lang}")
-          install -Dm644 -t "${FLATPAK_DEST}/share/runtime/locale/${locale%%-*}/" "$lang"
-          ln -sf ${FLATPAK_DEST}/share/runtime/locale/${locale%%-*}/$(basename "$lang") ${FLATPAK_DEST}/Jagex\ Launcher/locales/$(basename "$lang")
-        done
     sources:
       - type: archive
         url: https://github.com/USA-RedDragon/jagex-launcher/releases/download/0.30.1/launcher-0.30.1.tar.gz
