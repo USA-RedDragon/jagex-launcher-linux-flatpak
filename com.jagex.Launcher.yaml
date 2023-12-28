@@ -129,7 +129,7 @@ modules:
             fi
           fi
           rm -f "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales/"* || true
-          cp -r /app/Jagex\ Launcher "${WINEPREFIX}/drive_c/Program Files (x86)/locales/"* "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales/"
+          cp -r /app/Jagex\ Launcher/locales/* "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales/"
           /app/wine/bin/wineboot -u
 
           if [ ! -d "/app/ThirdParty/RuneLite" ]; then
