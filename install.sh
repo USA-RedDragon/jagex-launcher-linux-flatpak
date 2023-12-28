@@ -26,4 +26,4 @@ if [[ ${HAS_NVIDIA} -eq 1 ]]; then
         org.freedesktop.Platform.GL32.nvidia-${NVIDIA_VERISON}/x86_64
 fi
 
-flatpak install --or-update --user -y --noninteractive JagexLauncher com.jagex.Launcher com.jagex.Launcher.Locale
+flatpak install --or-update --user -y --noninteractive JagexLauncher com.jagex.Launcher

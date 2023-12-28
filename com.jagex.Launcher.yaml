@@ -7,6 +7,7 @@ id: com.jagex.Launcher
 runtime: org.freedesktop.Platform
 runtime-version: *runtime-version
 sdk: org.freedesktop.Sdk
+separate-locales: false
 command: /app/bin/launch.sh
 finish-args:
   - --allow=multiarch
@@ -121,13 +122,14 @@ modules:
           else
             # Check .version against the .version we have in /app/Jagex Launcher. If they don't match, copy the new version over.
             if [ "$(cat /app/Jagex\ Launcher/.version)" != "$(cat "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/.version")" ]; then
-              # Delete root files and locales folder, then copy over the new version
+              # Delete folder, then copy over the new version
               rm -f "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"* || true
-              rm -rf "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales" || true
               cp -r /app/Jagex\ Launcher/* "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"
               cp /app/Jagex\ Launcher/.version "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"
             fi
           fi
+          rm -f "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales/"* || true
+          cp -r /app/Jagex\ Launcher "${WINEPREFIX}/drive_c/Program Files (x86)/locales/"* "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales/"
           /app/wine/bin/wineboot -u
 
           if [ ! -d "/app/ThirdParty/RuneLite" ]; then
