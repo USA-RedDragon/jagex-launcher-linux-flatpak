@@ -25,6 +25,7 @@
 
     <releases>
         <release version="2.6.10" date="2023-11-19"></release>
+        <release version="2.6.9" date="2023-10-17"></release>
     </releases>
 
     <content_rating type="oars-1.0">
