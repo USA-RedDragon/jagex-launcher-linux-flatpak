@@ -54,6 +54,34 @@ flatpak install --user flathub org.freedesktop.Platform.GL.nvidia-545-29-02/x86_
 flatpak install --user flathub org.freedesktop.Platform.GL32.nvidia-545-29-02/x86_64
 ```
 
+## Building
+
+### Prerequisites
+
+
+- for `wrestool`
+```
+sudo apt install icoutils
+```
+
+
+- for `convert`
+```
+sudo apt install imagemagick-6.q16
+```
+
+- for `flatpak-builder`
+```
+sudo apt install flatpak-builder
+```
+----
+
+Once you have installed the prerequisites
+, you can build the project with:
+```
+./build.sh
+```
+
 ## Screenshots
 
 <img width="50%" src="https://jagexlauncher.flatpak.mcswain.dev/screenshot.png" alt="Screenshot of the Jagex Launcher and all 4 RuneScape clients open"></img>
