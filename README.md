@@ -43,15 +43,15 @@ If you're not sure which version of the driver you're on, you can check the `/pr
 
 ```bash
 $ cat /proc/driver/nvidia/version
-NVRM version: NVIDIA UNIX x86_64 Kernel Module  545.29.06  Thu Nov 16 01:59:08 UTC 2023
-GCC version:  gcc version 11.4.0
+NVRM version: NVIDIA UNIX x86_64 Kernel Module  545.29.02  Thu Oct 26 21:21:38 UTC 2023
+GCC version:  gcc version 13.2.1 20230801 (GCC)
 ```
 
-In this case the driver version is `545.29.06`. You can then install the appropriate drivers with the following command, replacing the version with the version you found in the previous step:
+In this case the driver version is `545.29.02`. You can then install the appropriate drivers with the following command, replacing the version with the version you found in the previous step:
 
 ```bash
-flatpak install --user flathub org.freedesktop.Platform.GL.nvidia-545-29-06/x86_64
-flatpak install --user flathub org.freedesktop.Platform.GL32.nvidia-545-29-06/x86_64
+flatpak install --user flathub org.freedesktop.Platform.GL.nvidia-545-29-02/x86_64
+flatpak install --user flathub org.freedesktop.Platform.GL32.nvidia-545-29-02/x86_64
 ```
 
 ## Building
