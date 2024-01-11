@@ -56,29 +56,53 @@ flatpak install --user flathub org.freedesktop.Platform.GL32.nvidia-545-29-02/x8
 
 ## Building
 
-### Prerequisites
+### Required Packages
 
+- `ImageMagik` is required for `convert`
+- `icoutils` is required for `wrestool`
+- `flatpak-builder` is required for building the Flatpak
 
-- for `wrestool`
-```
-sudo apt install icoutils
+<details>
+  <summary>Debian/Ubuntu/APT-based</summary>
+
+```bash
+sudo apt-get install -y \
+    icoutils \
+    imagemagick \
+    flatpak-builder
 ```
 
+</details>
 
-- for `convert`
-```
-sudo apt install imagemagick-6.q16
+<details>
+  <summary>Fedora/RPM-based</summary>
+
+```bash
+sudo dnf install \
+    icoutils \
+    ImageMagick \
+    flatpak-builder
 ```
 
-- for `flatpak-builder`
-```
-sudo apt install flatpak-builder
-```
-----
+</details>
 
-Once you have installed the prerequisites
-, you can build the project with:
+<details>
+  <summary>Arch</summary>
+
+```bash
+sudo pacman -S \
+    icoutils \
+    imagemagick \
+    flatpak-builder
 ```
+
+</details>
+
+### Building the Flatpak
+
+After the required packages are installed the project can be built with:
+
+```bash
 ./build.sh
 ```
 
