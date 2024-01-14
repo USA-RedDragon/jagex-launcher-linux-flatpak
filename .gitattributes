@@ -1,0 +1,2 @@
+*.yaml linguist-detectable
+resources/** linguist-detectable
