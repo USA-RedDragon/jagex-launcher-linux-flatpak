@@ -73,3 +73,8 @@ modules:
           if ! grep -q "RuneLite Launcher_is1" "${WINEPREFIX}/user.reg"; then
             /app/wine/bin/wine reg.exe add "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\RuneLite Launcher_is1" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\ThirdParty\\RuneLite" /f
           fi
+          export XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-${HOME}/Pictures}"
+          mkdir -p ${XDG_PICTURES_DIR}/RuneLite
+          mv ${XDG_DATA_HOME}/../.runelite/screenshots/* ${XDG_PICTURES_DIR}/RuneLite || true
+          rm -rf ${XDG_DATA_HOME}/../.runelite/screenshots
+          ln -sf ${XDG_PICTURES_DIR}/RuneLite ${XDG_DATA_HOME}/../.runelite/screenshots
