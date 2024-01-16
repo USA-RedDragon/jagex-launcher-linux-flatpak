@@ -9,11 +9,11 @@ assignees: USA-RedDragon
 
 This is an issue with (choose one):
 
-[ ] RS3
-[ ] Official Jagex OSRS
-[ ] RuneLite
-[ ] HDOS
-[ ] Something else
+- [ ] RS3
+- [ ] Official Jagex OSRS
+- [ ] RuneLite
+- [ ] HDOS
+- [ ] Something else
 
 **Describe the bug**
 A clear and concise description of what the bug is.
