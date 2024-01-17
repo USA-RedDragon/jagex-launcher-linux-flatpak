@@ -29,7 +29,7 @@ jobs:
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       - name: Cache Flatpak builder
         id: cache-flatpak-builder
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .flatpak-builder
           key: ${{ runner.os }}-flatpak-builder-${{ hashFiles('com.jagex.Launcher.yaml') }}
