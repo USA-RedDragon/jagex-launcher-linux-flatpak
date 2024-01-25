@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # renovate: datasource=github-releases depName=USA-RedDragon/jagex-launcher
-JAGEX_LAUNCHER_VERSION=0.31.0
+JAGEX_LAUNCHER_VERSION=0.31.1
 
 __PWD=$(pwd)
 
