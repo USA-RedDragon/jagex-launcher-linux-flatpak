@@ -1,45 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- https://github.com/flathub/net.runelite.RuneLite/blob/master/net.runelite.RuneLite.appdata.xml -->
 <component type="addon">
-    <extends>com.jagex.Launcher</extends>
-    <id>com.jagex.Launcher.ThirdParty.RuneLite</id>
-    <name>RuneLite</name>
-    <developer_name>RuneLite</developer_name>
-    <summary>RuneLite OSRS Client</summary>
-
-    <metadata_license>FSFAP</metadata_license>
-    <project_license>BSD-2-Clause</project_license>
-
-    <description>
-        <p>RuneLite is a free, open-source and super fast client for Old School RuneScape</p>
-    </description>
-
-    <screenshots>
-        <screenshot type="default">https://raw.githubusercontent.com/flathub/net.runelite.RuneLite/master/screenshot.png</screenshot>
-        <screenshot>https://raw.githubusercontent.com/flathub/net.runelite.RuneLite/master/1.png</screenshot>
-        <screenshot>https://raw.githubusercontent.com/flathub/net.runelite.RuneLite/master/2.png</screenshot>
-        <screenshot>https://raw.githubusercontent.com/flathub/net.runelite.RuneLite/master/3.png</screenshot>
-    </screenshots>
-
-    <url type="homepage">https://runelite.net/</url>
-
-    <releases>
-        <release version="2.6.10" date="2023-11-19"></release>
-        <release version="2.6.9" date="2023-10-17"></release>
-    </releases>
-
-    <content_rating type="oars-1.0">
-        <content_attribute id="violence-cartoon">moderate</content_attribute>
-        <content_attribute id="violence-fantasy">moderate</content_attribute>
-        <content_attribute id="violence-bloodshed">mild</content_attribute>
-        <content_attribute id="drugs-alcohol">moderate</content_attribute>
-        <content_attribute id="drugs-narcotics">mild</content_attribute>
-        <content_attribute id="drugs-tobacco">mild</content_attribute>
-        <content_attribute id="sex-themes">mild</content_attribute>
-        <content_attribute id="language-profanity">mild</content_attribute>
-        <content_attribute id="language-humor">mild</content_attribute>
-        <content_attribute id="social-chat">intense</content_attribute>
-        <content_attribute id="money-purchasing">intense</content_attribute>
-        <content_attribute id="money-gambling">moderate</content_attribute>
-    </content_rating>
+  <extends>com.jagex.Launcher</extends>
+  <id>com.jagex.Launcher.ThirdParty.RuneLite</id>
+  <name>RuneLite</name>
+  <developer_name>RuneLite</developer_name>
+  <summary>RuneLite OSRS Client</summary>
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>BSD-2-Clause</project_license>
+  <description>
+    <p>RuneLite is a free, open-source and super fast client for Old School RuneScape</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">https://raw.githubusercontent.com/flathub/net.runelite.RuneLite/master/screenshot.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/flathub/net.runelite.RuneLite/master/1.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/flathub/net.runelite.RuneLite/master/2.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/flathub/net.runelite.RuneLite/master/3.png</screenshot>
+  </screenshots>
+  <url type="homepage">https://runelite.net/</url>
+  <releases>
+    <release version="2.6.13" date="2024-02-02"></release>
+    <release version="2.6.10" date="2023-11-19"></release>
+    <release version="2.6.9" date="2023-10-17"></release>
+  </releases>
+  <content_rating type="oars-1.0">
+    <content_attribute id="violence-cartoon">moderate</content_attribute>
+    <content_attribute id="violence-fantasy">moderate</content_attribute>
+    <content_attribute id="violence-bloodshed">mild</content_attribute>
+    <content_attribute id="drugs-alcohol">moderate</content_attribute>
+    <content_attribute id="drugs-narcotics">mild</content_attribute>
+    <content_attribute id="drugs-tobacco">mild</content_attribute>
+    <content_attribute id="sex-themes">mild</content_attribute>
+    <content_attribute id="language-profanity">mild</content_attribute>
+    <content_attribute id="language-humor">mild</content_attribute>
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="money-purchasing">intense</content_attribute>
+    <content_attribute id="money-gambling">moderate</content_attribute>
+  </content_rating>
 </component>
