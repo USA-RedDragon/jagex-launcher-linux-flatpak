@@ -48,9 +48,9 @@ modules:
       - chmod +x ${FLATPAK_DEST}/RuneLite.exe
     sources:
       - type: file
-        url: https://github.com/runelite/launcher/releases/download/2.6.10/RuneLite.jar
+        url: https://github.com/runelite/launcher/releases/download/2.6.13/RuneLite.jar
         dest-filename: RuneLite.jar
-        sha256: b73561c714ad58984669f0b909731d4cc4c6bacdbf07d227006243d1b566138b
+        sha256: 5dee3b3f371d9e8dd846847ea2791a21b42d9cd030183631fd0a3112c4dd11fa
   - name: bundle-setup
     buildsystem: simple
     build-commands:
