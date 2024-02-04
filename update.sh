@@ -24,7 +24,7 @@ export JAGEX_LAUNCHER_URL=https://github.com/USA-RedDragon/jagex-launcher/releas
 export JAGEX_LAUNCHER_SHA256=$(curl -fSsL "${JAGEX_LAUNCHER_URL}" | sha256sum | cut -d' ' -f1)
 
 # renovate: datasource=github-releases versioning=regex depName=GloriousEggroll/wine-ge-custom
-WINE_GE_VERSION=GE-Proton8-25
+WINE_GE_VERSION=GE-Proton8-26
 export WINE_GE_URL=https://github.com/GloriousEggroll/wine-ge-custom/releases/download/${WINE_GE_VERSION}/wine-lutris-${WINE_GE_VERSION}-x86_64.tar.xz
 export WINE_GE_SHA256=$(curl -fSsL "${WINE_GE_URL}" | sha256sum | cut -d' ' -f1)
 export WINE_GE_VERSION
