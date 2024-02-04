@@ -56,9 +56,9 @@ modules:
       - cp -r * ${FLATPAK_DEST}/wine
     sources:
       - type: archive
-        url: https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-25/wine-lutris-GE-Proton8-25-x86_64.tar.xz
+        url: https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-26/wine-lutris-GE-Proton8-26-x86_64.tar.xz
         archive-type: tar-xz
-        sha256: 466f5d77d7b9821f1023859a5e467b9344afd25cb3018b04ac0e89c9d25fd8c0
+        sha256: 9cef292850a470b1a2637b22959051ab36784dccdb4966c19607790a1e3a96f1
     cleanup:
       - /wine/bin/msidb
       - /wine/bin/wineconsole
