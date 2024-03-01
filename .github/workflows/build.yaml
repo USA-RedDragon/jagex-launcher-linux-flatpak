@@ -21,6 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           DEBIAN_FRONTEND=noninteractive sudo apt-get update -y
+          git config --global protocol.file.allow always
           sudo apt-get install --no-install-recommends -y \
             icoutils \
             flatpak \
