@@ -2,6 +2,8 @@
 x-runtime-version: &runtime-version '23.08'
 x-gl-version: &gl-version '1.4'
 x-gl-versions: &gl-versions 23.08;1.4
+x-wine-version: &wine-version 'wine-8.20'
+x-openssl-tag: &openssl-tag 'OpenSSL_1_1_1w'
 # Flatpak manifest
 id: com.jagex.Launcher
 runtime: org.freedesktop.Platform
@@ -76,6 +78,80 @@ modules:
       - /wine/bin/winepath
       - /wine/share/man
       - /wine/share/applications/wine.desktop
+  - name: gtk2
+    build-options:
+      env:
+        CC: ccache gcc
+        CXX: ccache g++
+    config-opts:
+      - --libdir=/app/lib
+      - --sysconfdir=/app/etc
+      - --localstatedir=/app/var
+      - --with-xinput=yes
+      - --disable-gtk-doc
+    sources:
+      - type: git
+        url: https://gitlab.gnome.org/GNOME/gtk.git
+        tag: 2.24.33
+    cleanup:
+      - /bin/openssl
+      - /share/gtk-2.0/demo
+      - /lib/pkgconfig
+      - /lib/debug
+      - /include
+      - /bin/gtk-demo
+  - name: openssl
+    buildsystem: simple
+    build-commands:
+      - ./config --prefix=/app --openssldir=/app/ssl shared zlib
+      - make -j $FLATPAK_BUILDER_N_JOBS
+      - make install_sw
+    sources:
+      - type: git
+        url: https://github.com/openssl/openssl.git
+        tag: *openssl-tag
+    cleanup:
+      - /lib/pkgconfig
+      - /lib/debug
+      - /include
+  - name: rs3-client
+    buildsystem: simple
+    build-commands:
+      - ar x *.deb
+      - mkdir -p ${FLATPAK_DEST}/RS3
+      - tar -C ${FLATPAK_DEST}/RS3 -xf data.tar.xz
+      - mv launch.sh ${FLATPAK_DEST}/RS3/RuneScape.exe
+      - chmod +x ${FLATPAK_DEST}/RS3/RuneScape.exe
+    sources:
+      - type: file
+        url: https://content.runescape.com/downloads/ubuntu/pool/non-free/r/runescape-launcher/runescape-launcher_2.2.11_amd64.deb
+        sha256: 427048031f328174b299b896e646874ba374a845f26b9fdbcd4efc889a875baf
+      - type: inline
+        dest-filename: launch.sh
+        contents: |
+          #!/bin/sh
+
+          set -exo pipefail
+          if [ -z $1 ]; then
+              configURI=https://www.runescape.com/k=5/l=\$\(Language:0\)/jav_config.ws
+          else
+              configURI=$1
+              shift
+          fi
+
+          export PULSE_PROP_OVERRIDE="application.name='RuneScape' application.icon_name='runescape' media.role='game'"
+          export SDL_VIDEO_X11_WMCLASS="RuneScape"
+          export PULSE_LATENCY_MSEC=${PULSE_LATENCY_MSEC:-256}
+          unset XMODIFIERS
+          export HOME=${XDG_DATA_HOME}
+          exec /app/RS3/usr/share/games/runescape-launcher/runescape --configURI $configURI $@
+    cleanup:
+      - /RS3/usr/share/applications
+      - /RS3/usr/share/doc
+      - /RS3/usr/bin
+      - /RS3/usr/share/icons
+      - /RS3/usr/share/kde4
+      - /RS3/usr/share/games/runescape-launcher/runescape.png
   - name: jagex-launcher
     buildsystem: simple
     build-commands:
@@ -117,6 +193,8 @@ modules:
 
           set -exuo pipefail
 
+          WINEDIR=/app/wine/bin
+
           mkdir -p "${WINEPREFIX}/drive_c/Program Files (x86)/"
           if [ ! -d "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher" ]; then
             cp -r /app/Jagex\ Launcher "${WINEPREFIX}/drive_c/Program Files (x86)/"
@@ -129,21 +207,35 @@ modules:
               cp /app/Jagex\ Launcher/.version "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/"
             fi
           fi
-          rm -f "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales/"* || true
-          cp -r /app/Jagex\ Launcher/locales/* "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales/"
-          /app/wine/bin/wineboot -u
+          rm -rf "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales/"* || true
+          cp -r "/app/Jagex Launcher/locales/"* "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales/"
+          "${WINEDIR}/wineboot" -u
+
+          # Override the install location for RuneScape so we can use the native client
+          if "${WINEDIR}/wine64" reg.exe query "HKEY_LOCAL_MACHINE\\Software\\Jagex\\JagexLauncher\\RuneScape"; then
+            "${WINEDIR}/wine64" reg.exe delete "HKEY_LOCAL_MACHINE\\Software\\Jagex\\JagexLauncher\\RuneScape" /f
+            "${WINEDIR}/wine64" reg.exe add "HKEY_LOCAL_MACHINE\\Software\\Jagex\\JagexLauncher\\RuneScape" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\RS3\\" /f
+            "${WINEDIR}/wine64" reg.exe add "HKEY_LOCAL_MACHINE\\Software\\Jagex\\JagexLauncher\\RuneScape" /v "LauncherManaged" /t REG_DWORD /d 0 /f
+          fi
+
+          mv "${WINEPREFIX}/drive_c/ProgramData/Jagex/RuneScape/*" "${XDG_DATA_HOME}/Jagex/RuneScape/"
+          rm -rf "${WINEPREFIX}/drive_c/ProgramData/Jagex/RuneScape"
+
+          if [ -d "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/Games/RuneScape" ]; then
+            rm -rf "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/Games/RuneScape"
+          fi
 
           if [ ! -d "/app/ThirdParty/RuneLite" ]; then
             # Check WINEPREFIX for RuneLite Launcher_is1 key
-            if grep -q "RuneLite Launcher_is1" "${WINEPREFIX}/user.reg"; then
-              /app/wine/bin/wine reg.exe delete "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\RuneLite Launcher_is1" /f
+            if "${WINEDIR}/wine" reg.exe query "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\RuneLite Launcher_is1"; then
+              "${WINEDIR}/wine" reg.exe delete "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\RuneLite Launcher_is1" /f
             fi
           fi
 
           if [ ! -d "/app/ThirdParty/HDOS" ]; then
             # Check WINEPREFIX for HDOS Launcher_is1 key
-            if grep -q "HDOS Launcher_is1" "${WINEPREFIX}/user.reg"; then
-              /app/wine/bin/wine reg.exe delete "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\HDOS Launcher_is1" /f
+            if "${WINEDIR}/wine" reg.exe query "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\HDOS Launcher_is1"; then
+              "${WINEDIR}/wine" reg.exe delete "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\HDOS Launcher_is1" /f
             fi
           fi
 
@@ -155,7 +247,7 @@ modules:
             . /app/ThirdParty/RuneLite/prelaunch.sh
           fi
 
-          exec /app/wine/bin/wine "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
+          exec "${WINEDIR}/wine" "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/JagexLauncher.exe" "$@"
       - type: file
         path: resources/icons/16x16.png
       - type: file
