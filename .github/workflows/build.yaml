@@ -1,11 +1,6 @@
 name: Build
 
 on:
-  push:
-    branches-ignore:
-      - rebase-pull-request**
-      - cherry-pick-rebase-pull-request**
-      - flatpak-repository
   pull_request:
 
 concurrency:
