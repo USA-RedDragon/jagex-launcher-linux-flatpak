@@ -53,7 +53,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .flatpak-builder
-          key: ${{ runner.os }}-flatpak-builder-${{ hashFiles('com.jagex.Launcher.yaml') }}
+          key: ${{ runner.os }}-flatpak-builder-${{ github.workflow }}
       - name: Build Flatpak
         run: |
           ./build.sh sign
