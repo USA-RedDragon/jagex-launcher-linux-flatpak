@@ -214,9 +214,9 @@ modules:
           # Override the install location for RuneScape so we can use the native client
           if "${WINEDIR}/wine64" reg.exe query "HKEY_LOCAL_MACHINE\\Software\\Jagex\\JagexLauncher\\RuneScape"; then
             "${WINEDIR}/wine64" reg.exe delete "HKEY_LOCAL_MACHINE\\Software\\Jagex\\JagexLauncher\\RuneScape" /f
-            "${WINEDIR}/wine64" reg.exe add "HKEY_LOCAL_MACHINE\\Software\\Jagex\\JagexLauncher\\RuneScape" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\RS3\\" /f
-            "${WINEDIR}/wine64" reg.exe add "HKEY_LOCAL_MACHINE\\Software\\Jagex\\JagexLauncher\\RuneScape" /v "LauncherManaged" /t REG_DWORD /d 0 /f
           fi
+          "${WINEDIR}/wine64" reg.exe add "HKEY_LOCAL_MACHINE\\Software\\Jagex\\JagexLauncher\\RuneScape" /v "InstallLocation" /t REG_SZ /d "Z:\\app\\RS3\\" /f
+          "${WINEDIR}/wine64" reg.exe add "HKEY_LOCAL_MACHINE\\Software\\Jagex\\JagexLauncher\\RuneScape" /v "LauncherManaged" /t REG_DWORD /d 0 /f
 
           # Move the old RS3 cache to the new location if it exists
           if [ -d "${WINEPREFIX}/drive_c/ProgramData/Jagex/RuneScape" ]; then
