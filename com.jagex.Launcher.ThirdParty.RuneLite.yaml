@@ -39,11 +39,11 @@ modules:
       - cp -r -v RuneLite.jar ${FLATPAK_DEST}
       - |
         cat << __EOF__ > ${FLATPAK_DEST}/RuneLite.exe
-        #!/bin/sh
+        #!/bin/bash
         set -exuo pipefail
         export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${FLATPAK_DEST}/lib"
         export PATH="${PATH}:${FLATPAK_DEST}/bin"
-        exec ${FLATPAK_DEST}/jre/bin/java -jar ${FLATPAK_DEST}/RuneLite.jar "\$@" \${EXTRA_RUNELITE_ARGS}
+        exec ${FLATPAK_DEST}/jre/bin/java -jar ${FLATPAK_DEST}/RuneLite.jar "\$@" \${EXTRA_RUNELITE_ARGS:-}
         __EOF__
       - chmod +x ${FLATPAK_DEST}/RuneLite.exe
     sources:
