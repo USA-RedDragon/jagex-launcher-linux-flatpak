@@ -1,6 +1,6 @@
-# Jagex Launcher Flatpak
+# Jagex Launcher Linux Flatpak
 
-This is a Flatpak package for the Jagex Launcher. It packages the official upstream Wine at the latest version, RuneLite, HDOS, and the Jagex Launcher.
+This is a Flatpak package for the Jagex Launcher on Linux Systems. It packages the official upstream Wine at the latest version, RuneLite, HDOS, and the Jagex Launcher.
 
 ## Installation
 
