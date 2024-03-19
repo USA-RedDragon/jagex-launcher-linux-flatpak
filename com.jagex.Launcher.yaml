@@ -221,7 +221,7 @@ modules:
           # Move the old RS3 cache to the new location if it exists
           if [ -d "${WINEPREFIX}/drive_c/ProgramData/Jagex/RuneScape" ]; then
             mkdir -p "${XDG_DATA_HOME}/Jagex/RuneScape/"
-            mv "${WINEPREFIX}/drive_c/ProgramData/Jagex/RuneScape/*" "${XDG_DATA_HOME}/Jagex/RuneScape/"
+            mv "${WINEPREFIX}/drive_c/ProgramData/Jagex/RuneScape/*" "${XDG_DATA_HOME}/Jagex/RuneScape/" || true
             rm -rf "${WINEPREFIX}/drive_c/ProgramData/Jagex/RuneScape"
           fi
 
