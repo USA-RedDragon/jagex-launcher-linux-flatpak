@@ -209,7 +209,7 @@ modules:
           fi
           rm -rf "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales/"* || true
           cp -r "/app/Jagex Launcher/locales/"* "${WINEPREFIX}/drive_c/Program Files (x86)/Jagex Launcher/locales/"
-          "${WINEDIR}/wineboot" -u
+          # "${WINEDIR}/wineboot" -u
 
           # Override the install location for RuneScape so we can use the native client
           if "${WINEDIR}/wine64" reg.exe query "HKEY_LOCAL_MACHINE\\Software\\Jagex\\JagexLauncher\\RuneScape"; then
