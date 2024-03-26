@@ -54,6 +54,10 @@ flatpak install --user flathub org.freedesktop.Platform.GL.nvidia-545-29-02/x86_
 flatpak install --user flathub org.freedesktop.Platform.GL32.nvidia-545-29-02/x86_64
 ```
 
+## RuneLite Screenshots
+
+RuneLite screenshots should be saved to `$HOME/Pictures/RuneLite`.
+
 ## Custom Arguments for RuneLite/HDOS
 
 You can pass custom arguments to RuneLite and HDOS by setting the `EXTRA_RUNELITE_ARGS`/`EXTRA_HDOS_ARGS` environment variables, respectively. For example, to run RuneLite with the `--configure` argument, you can use the following command, then launch the RuneLite client from the Jagex Launcher:
