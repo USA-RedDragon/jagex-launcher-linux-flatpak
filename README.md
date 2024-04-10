@@ -27,7 +27,7 @@ flatpak install --user JagexLauncher com.jagex.Launcher.ThirdParty.HDOS
 You can also use the install script which manages the remote and installs the Flatpak, including Nvidia drivers if needed. Note this does NOT install RuneLite or HDOS:
 
 ```bash
-curl -fSsL https://raw.githubusercontent.com/USA-RedDragon/jagex-launcher-flatpak/main/install.sh | bash
+curl -fSsL https://raw.githubusercontent.com/USA-RedDragon/jagex-launcher-linux-flatpak/main/install.sh | bash
 
 # Install RuneLite (if desired)
 flatpak install --user JagexLauncher com.jagex.Launcher.ThirdParty.RuneLite
