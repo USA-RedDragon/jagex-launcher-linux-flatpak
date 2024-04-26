@@ -37,7 +37,7 @@ flatpak install --user JagexLauncher com.jagex.Launcher.ThirdParty.HDOS
 
 ### Nvidia GPU Drivers
 
-If you are using the Nvidia proprietary drivers, you will need to install the drivers.
+If you are using the Nvidia proprietary driver, you will need to install the 32-bit and 64-bit Flatpack packages for the driver.
 
 If you're not sure which version of the driver you're on, you can check the `/proc/driver/nvidia/version` file. If it doesn't exists, you're probably using the Nouveau drivers. If it does exist, here is an example of the output:
 
