@@ -8,7 +8,25 @@ This is a Flatpak package for the Jagex Launcher on Linux Systems. It packages t
 
 It is unlikely that Flathub would accept a proprietary application like the Jagex Launcher, paricularly one that is wrapped in Wine. As such, this Flatpak is not available on Flathub.
 
-You can install it by adding the remote and installing it with the following commands:
+#### Scripted Installation
+
+You may elect to use the install script which manages the remote and installs the Flatpak, including Nvidia drivers if needed.
+
+> [!NOTE]  
+> The install script does NOT install RuneLite or HDOS.
+
+```bash
+curl -fSsL https://raw.githubusercontent.com/USA-RedDragon/jagex-launcher-linux-flatpak/main/install.sh | bash
+
+# Install RuneLite (if desired)
+flatpak install --user JagexLauncher com.jagex.Launcher.ThirdParty.RuneLite
+# Install HDOS (if desired)
+flatpak install --user JagexLauncher com.jagex.Launcher.ThirdParty.HDOS
+```
+
+#### Manual Installation
+
+Alternatively, you can install this Flatpak by adding the remote and installing the package with the following commands:
 
 ```bash
 flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
@@ -24,18 +42,7 @@ flatpak install --user JagexLauncher com.jagex.Launcher.ThirdParty.RuneLite
 flatpak install --user JagexLauncher com.jagex.Launcher.ThirdParty.HDOS
 ```
 
-You can also use the install script which manages the remote and installs the Flatpak, including Nvidia drivers if needed. Note this does NOT install RuneLite or HDOS:
-
-```bash
-curl -fSsL https://raw.githubusercontent.com/USA-RedDragon/jagex-launcher-linux-flatpak/main/install.sh | bash
-
-# Install RuneLite (if desired)
-flatpak install --user JagexLauncher com.jagex.Launcher.ThirdParty.RuneLite
-# Install HDOS (if desired)
-flatpak install --user JagexLauncher com.jagex.Launcher.ThirdParty.HDOS
-```
-
-### Nvidia GPU Drivers
+##### Nvidia GPU Drivers for Manual Installations
 
 If you are using the Nvidia proprietary driver, you will need to install the 32-bit and 64-bit Flatpack packages for the driver.
 
@@ -46,6 +53,9 @@ $ cat /proc/driver/nvidia/version
 NVRM version: NVIDIA UNIX x86_64 Kernel Module  545.29.02  Thu Oct 26 21:21:38 UTC 2023
 GCC version:  gcc version 13.2.1 20230801 (GCC)
 ```
+
+> [!TIP]
+> The version shown in the example is old. Make sure to find your own version using the command above.
 
 In this case the driver version is `545.29.02`. You can then install the appropriate drivers with the following command, replacing the version with the version you found in the previous step:
 
@@ -59,6 +69,10 @@ flatpak install --user flathub org.freedesktop.Platform.GL32.nvidia-545-29-02/x8
 RuneLite screenshots should be saved to `$HOME/Pictures/RuneLite`.
 
 ## Custom Arguments for RuneLite/HDOS
+
+> [!WARNING]  
+> You probably only want to use these if you're a developer or need to do something funky.
+> If you just want to use RuneLite/HDOS normally, just run the Flatpak with `flatpak run --user com.jagex.Launcher`
 
 You can pass custom arguments to RuneLite and HDOS by setting the `EXTRA_RUNELITE_ARGS`/`EXTRA_HDOS_ARGS` environment variables, respectively. For example, to run RuneLite with the `--configure` argument, you can use the following command, then launch the RuneLite client from the Jagex Launcher:
 
