@@ -73,6 +73,7 @@ RuneLite screenshots should be saved to `$HOME/Pictures/RuneLite`.
 > [!WARNING]  
 > You probably only want to use these if you're a developer or need to do something funky.
 > If you just want to use RuneLite/HDOS normally, just run the Flatpak with `flatpak run --user com.jagex.Launcher`
+> and choose HDOS/RuneLite
 
 You can pass custom arguments to RuneLite and HDOS by setting the `EXTRA_RUNELITE_ARGS`/`EXTRA_HDOS_ARGS` environment variables, respectively. For example, to run RuneLite with the `--configure` argument, you can use the following command, then launch the RuneLite client from the Jagex Launcher:
 
