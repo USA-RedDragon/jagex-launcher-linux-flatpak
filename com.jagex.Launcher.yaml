@@ -61,23 +61,6 @@ modules:
         url: https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-26/wine-lutris-GE-Proton8-26-x86_64.tar.xz
         archive-type: tar-xz
         sha256: 9cef292850a470b1a2637b22959051ab36784dccdb4966c19607790a1e3a96f1
-    cleanup:
-      - /wine/bin/msidb
-      - /wine/bin/wineconsole
-      - /wine/bin/msiexec
-      - /wine/bin/notepad
-      - /wine/bin/regedit
-      - /wine/bin/regsvr32
-      - /wine/bin/wine-preloader
-      - /wine/bin/wine64-preloader
-      - /wine/bin/wineconsole
-      - /wine/bin/winedbg
-      - /wine/bin/winedbg
-      - /wine/bin/winefile
-      - /wine/bin/winemine
-      - /wine/bin/winepath
-      - /wine/share/man
-      - /wine/share/applications/wine.desktop
   - name: gtk2
     build-options:
       env:
