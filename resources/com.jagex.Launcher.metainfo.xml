@@ -20,6 +20,7 @@
   <launchable type="desktop-id">com.jagex.Launcher.desktop</launchable>
   <url type="homepage">https://www.jagex.com/en-GB/launcher</url>
   <releases>
+    <release version="0.34.1" date="2024-06-14"></release>
     <release version="0.34.0" date="2024-06-10"></release>
     <release version="0.33.0" date="2024-03-18"></release>
     <release version="0.32.0" date="2024-02-15"></release>
