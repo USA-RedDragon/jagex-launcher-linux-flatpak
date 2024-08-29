@@ -53,7 +53,7 @@ HDOS_SHORT_VERSION=$(echo ${HDOS_VERSION} | awk -F. '{ print "v"$3 }')
 export HDOS_URL=https://cdn.hdos.dev/launcher/${HDOS_SHORT_VERSION}/hdos-launcher.jar
 
 # renovate: datasource=github-releases depName=runelite/launcher
-RUNELITE_LAUNCHER_VERSION=2.7.1
+RUNELITE_LAUNCHER_VERSION=2.7.2
 RUNELITE_LAUNCHER_MAJOR_MINOR_VERSION=$(echo ${RUNELITE_LAUNCHER_VERSION} | cut -d'-' -f3 | cut -d'.' -f1-2)
 
 # Runelite doesn't always update the JAR, so we need to search previous releases for the latest JAR
