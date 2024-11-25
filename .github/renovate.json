@@ -5,14 +5,18 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["GloriousEggroll/wine-ge-custom"],
+      "matchPackageNames": [
+        "GloriousEggroll/wine-ge-custom"
+      ],
       "versioning": "regex:^GE-Proton(?<major>\\d+)-(?<minor>\\d+)$",
       "automerge": false
     },
     {
-      "matchDepPatterns": [".*freedesktop-sdk.*"],
       "versioning": "regex:^freedesktop-sdk-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$",
-      "automerge": false
+      "automerge": false,
+      "matchDepNames": [
+        "/.*freedesktop-sdk.*/"
+      ]
     }
   ]
 }
