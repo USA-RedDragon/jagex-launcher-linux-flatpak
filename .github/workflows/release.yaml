@@ -46,7 +46,8 @@ jobs:
             icoutils \
             flatpak \
             flatpak-builder \
-            elfutils
+            elfutils \
+            imagemagick
           flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       - name: Cache Flatpak builder
         id: cache-flatpak-builder
