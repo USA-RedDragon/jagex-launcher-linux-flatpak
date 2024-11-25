@@ -7,9 +7,15 @@ FREEDESKTOP_SDK_GIT_VERSION=freedesktop-sdk-23.08.25
 FREEDESKTOP_SDK_VERSION=$(echo ${FREEDESKTOP_SDK_GIT_VERSION} | cut -d'-' -f3 | cut -d'.' -f1-2)
 
 HAS_NVIDIA=0
-if [[ -f /proc/driver/nvidia/version ]]; then
+NVIDIA_DRIVER_PATH="/proc/driver/nvidia/version"
+if [[ -f ${NVIDIA_DRIVER_PATH} ]]; then
     HAS_NVIDIA=1
-    NVIDIA_VERISON=$(cat /proc/driver/nvidia/version | head -n 1 | awk '{ print $8 }' | sed 's/\./-/g')
+    if grep "Open Kernel Module" ${NVIDIA_DRIVER_PATH}
+    then
+      NVIDIA_VERISON=$(cat ${NVIDIA_DRIVER_PATH} | head -n 1 | awk '{ print $10 }' | sed 's/\./-/g')
+    else
+      NVIDIA_VERISON=$(cat ${NVIDIA_DRIVER_PATH} | head -n 1 | awk '{ print $8 }' | sed 's/\./-/g')
+    fi
 fi
 
 flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
