@@ -108,7 +108,7 @@ modules:
     sources:
       - type: file
         url: https://content.runescape.com/downloads/ubuntu/pool/non-free/r/runescape-launcher/runescape-launcher_2.2.11_amd64.deb
-        sha256: 60b12ccc088e76ba3da261c0b5087fe781fb4b6243b3552f03b7ed98362a8d31
+        sha256: 96bfd8f2976db73d496dbdab58905ba6ab660483e6684516a00ecd8dfbd4e9fe
       - type: inline
         dest-filename: launch.sh
         contents: |
