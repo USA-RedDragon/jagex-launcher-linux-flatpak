@@ -176,6 +176,10 @@ modules:
 
           set -exuo pipefail
 
+          if [ -f /proc/driver/nvidia/version ]; then
+              export MESA_LOADER_DRIVER_OVERRIDE=zink
+          fi
+
           WINEDIR=/app/wine/bin
 
           mkdir -p "${WINEPREFIX}/drive_c/Program Files (x86)/"
