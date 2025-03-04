@@ -9,7 +9,7 @@ if [[ ! -z ${1+x} ]]; then
 fi
 
 # renovate: datasource=git-tags versioning=regex depName=https://gitlab.com/freedesktop-sdk/freedesktop-sdk.git
-FREEDESKTOP_SDK_GIT_VERSION=freedesktop-sdk-23.08.27
+FREEDESKTOP_SDK_GIT_VERSION=freedesktop-sdk-23.08.28
 FREEDESKTOP_SDK_VERSION=$(echo ${FREEDESKTOP_SDK_GIT_VERSION} | cut -d'-' -f3 | cut -d'.' -f1-2)
 
 HAS_NVIDIA=0

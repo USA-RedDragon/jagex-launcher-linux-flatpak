@@ -11,7 +11,7 @@ function semver_decrement_patch() {
 }
 
 # renovate: datasource=git-tags versioning=regex depName=https://gitlab.com/freedesktop-sdk/freedesktop-sdk.git
-FREEDESKTOP_SDK_GIT_VERSION=freedesktop-sdk-23.08.27
+FREEDESKTOP_SDK_GIT_VERSION=freedesktop-sdk-23.08.28
 export FREEDESKTOP_SDK_VERSION=$(echo ${FREEDESKTOP_SDK_GIT_VERSION} | cut -d'-' -f3 | cut -d'.' -f1-2)
 
 export GL_VERSION=$(curl -fSsL 'https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/raw/master/elements/flatpak-images/sdk.bst?inline=false' | grep -A 10 'Extension org.freedesktop.Platform.GL:' | grep 'version:' | yq .version)
