@@ -32,7 +32,7 @@ modules:
     sources:
       - type: git
         url: https://gitlab.gnome.org/GNOME/libnotify.git
-        tag: 0.8.4
+        tag: 0.8.5
   - name: runelite
     buildsystem: simple
     build-commands:
