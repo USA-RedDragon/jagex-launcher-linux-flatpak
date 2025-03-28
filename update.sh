@@ -36,7 +36,7 @@ export RS3_DEB_SHA256="$(curl -fSsL ${RS3_PKG_URL} | grep SHA256 | awk '{ print 
 export OPENSSL_VERSION=OpenSSL_1_1_1w
 
 # renovate: datasource=git-tags depName=https://gitlab.gnome.org/GNOME/libnotify.git
-LIBNOTIFY_VERSION=0.8.5
+LIBNOTIFY_VERSION=0.8.6
 export LIBNOTIFY_VERSION
 
 # We need to check if the next version of HDOS exists since there is no API to get the latest version
