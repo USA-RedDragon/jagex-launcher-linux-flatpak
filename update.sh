@@ -18,7 +18,7 @@ export GL_VERSION=$(curl -fSsL 'https://gitlab.com/freedesktop-sdk/freedesktop-s
 export GL_VERSIONS="${FREEDESKTOP_SDK_VERSION};${GL_VERSION}"
 
 # renovate: datasource=github-releases depName=USA-RedDragon/jagex-launcher
-JAGEX_LAUNCHER_VERSION=1.11.2
+JAGEX_LAUNCHER_VERSION=1.12.0
 export JAGEX_LAUNCHER_VERSION
 export JAGEX_LAUNCHER_URL=https://github.com/USA-RedDragon/jagex-launcher/releases/download/${JAGEX_LAUNCHER_VERSION}/launcher-${JAGEX_LAUNCHER_VERSION}.tar.gz
 export JAGEX_LAUNCHER_SHA256=$(curl -fSsL "${JAGEX_LAUNCHER_URL}" | sha256sum | cut -d' ' -f1)
