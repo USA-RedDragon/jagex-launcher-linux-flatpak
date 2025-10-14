@@ -1,6 +1,7 @@
 # Jagex Launcher Flatpak
 
-[Click to install](./com.jagex.Launcher.flatpakref){: .btn}
+> [!WARNING]
+> This project is no longer maintained and will receive no further updates. With GloriousEggroll no longer distributing an easy to use Wine GE runtime, and [Bolt Launcher](https://github.com/Adamcake/Bolt) ([FlatHub](https://flathub.org/en/apps/com.adamcake.Bolt)) having proven with time that Jagex will not strike users down with a ban hammer and given time to mature, I recommend using [Bolt Launcher](https://github.com/Adamcake/Bolt) instead of this Flatpak. Alternatively, [nmlynch94's Jagex Launcher Flatpak](https://github.com/nmlynch94/com.jagexlauncher.JagexLauncher) is also a good option that might still be maintained if you _must_ stick to an official-ish Jagex launcher.
 
 This is a Flatpak package for the Jagex Launcher. It packages the official upstream Wine at the latest version, RuneLite, HDOS, and the Jagex Launcher.
 
